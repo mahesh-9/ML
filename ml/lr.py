@@ -1,11 +1,7 @@
 """ Linear regression for multiple features """
 __author__="Aakash"
-#import numpy as np
 from .numc import *
 class LR():
-	#def __init__(self):
-		#self.get_data()
-		#self.count=0
 	def fit(self,X,Y):
 		if not isinstance(X,np.ndarray):self.a=np.array(X)
 		else:self.a=X
@@ -19,8 +15,6 @@ class LR():
 		return self.theta.dot(self.feat[it])				
 	def cost(self):
 		"""computes the cost"""
-		#self.count+=1
-		#self.m=self.a.shape[0]
 		sum=0
 		for i in range(self.m):
 			res=(self.hyp(it=i)-self.target[i])**2
