@@ -17,15 +17,6 @@ class nx:
 			temp=np.insert(self.ob[i],col_no,val)
 			b[i]=temp
 		return b
-	def zigzag(self,row_no):
-		if self.ob[row_no]==self.ob[-1]:
-			print("not possible!!!")
-		else:
-			x=np.full(self.ob.shape[1],np.inf)
-			for i in range(len(x)):
-				for j in range(len(x)):
-					if j%2!=0:continue
-					else:pass
-			
+	
 			
 		
