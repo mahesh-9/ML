@@ -1,6 +1,6 @@
 """ Linear regression for multiple features """
 __author__="Aakash"
-from .numc import *
+from ..numc import *
 class LR():
 	def fit(self,X,Y):
 		if not isinstance(X,np.ndarray):self.a=np.array(X)
