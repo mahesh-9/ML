@@ -20,7 +20,7 @@ class LogisticRegression():
 		r=(1/self.m)*s
 		#a=LR.cost(self)
 		return r
-	def gd(self,rate=0.01,loops=700):
+	def gd(self,rate=0.01,loops=200):
 		for k in range(loops):
 			for i in range(len(self.theta)):
 				ts=0
