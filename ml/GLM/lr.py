@@ -3,13 +3,14 @@ __author__="Aakash"
 from ..numc import *
 class LR():
 	def fit(self,X,Y):
-		if not isinstance(X,np.ndarray):self.a=np.array(X)
-		else:self.a=X
-		inst=nx(self.a)
-		self.feat=inst.add_col(col_no=0,val=1)
-		self.target=Y
-		self.theta=np.zeros(self.feat.shape[1])
-		self.m=self.a.shape[0]
+		if checkfit(self,X,Y):
+			if not isinstance(X,np.ndarray):self.a=np.array(X)
+			else:self.a=X
+			inst=nx(self.a)
+			self.feat=inst.add_col(col_no=0,val=1)
+			self.target=Y
+			self.theta=np.zeros(self.feat.shape[1])
+			self.m=self.a.shape[0]
 	def hyp(self,it=None):
 		"""returns the hypothesis equation of a pirticular feature"""
 		return self.theta.dot(self.feat[it])				
