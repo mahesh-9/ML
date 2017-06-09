@@ -21,7 +21,8 @@ class LR():
 			res=(self.hyp(it=i)-self.target[i])**2
 			sum+=res
 		return (1/2*(self.m))*(sum)	
-	def gd(self,rate=0.001,loops=700):
+	#def gd(self,rate=0.001,loops=700):
+	def gd(self,rate=0.01,loops=1000):
 		"""gradient descent"""
 		for k in range(loops):
 			for i in range(len(self.theta)):
