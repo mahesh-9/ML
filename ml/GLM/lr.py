@@ -41,6 +41,12 @@ class LR():
 	def intercept_coef(self):
 		return "intercept:{} coef:{}".format(self.theta[0],self.theta[1:])
 		
+def checkfit(self,X,Y):
+	if len(X)!=len(Y):
+		raise ValueError("The length of the features vector and target vector does not match")
+	elif len(X.shape)!=2:
+			raise ValueError("all the values in the feature vector do not have same dimensions")
+	else:return True
 
 				
 			
