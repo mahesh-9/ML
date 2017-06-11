@@ -3,7 +3,7 @@ __author__="Aakash"
 from ..numc import *
 class LR():
 	def fit(self,X,Y):
-		if checkfit(self,X,Y):
+		if checkfit(X,Y):
 			if not isinstance(X,np.ndarray):self.a=np.array(X)
 			else:self.a=X
 			inst=nx(self.a)
@@ -43,7 +43,7 @@ class LR():
 	def intercept_coef(self):
 		return "intercept:{} coef:{}".format(self.theta[0],self.theta[1:])
 		
-def checkfit(self,X,Y):
+def checkfit(X,Y):
 	if len(X)!=len(Y):
 		raise ValueError("The length of the features vector and target vector does not match")
 	elif len(X.shape)!=2:
