@@ -49,7 +49,16 @@ def checkfit(X,Y):
 	elif len(X.shape)!=2:
 			raise ValueError("all the values in the feature vector do not have same dimensions")
 	else:return True
-
+def normalize(X):
+	"""	This function normalizes the feature values:
+		new_x=(x-min(x))/(max(x)-min(x))"""
+	mi=np.min(X,axis=0)
+	ma=np.max(X,axis=0)
+	r=np.full(X.shape,np.inf)
+	for i in range(len(X)):
+		q=(X[i]-mi)/(ma-mi)
+		r[i]=q
+	return r
 				
 			
 		
