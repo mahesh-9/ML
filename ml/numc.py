@@ -33,7 +33,7 @@ def split_train_test(X,Y,per=20):
 		n_test_t=np.full([len(X)-dim_1,],np.inf)	
 		f_i=0
 		ins=f_i
-		s_i=int((20/100)*count)
+		s_i=int((per/100)*count)
 		ind=s_i
 		for i in range(len(list(class_set))):
 			n_train_f[ins:ins+ind]=X[f_i:s_i]
