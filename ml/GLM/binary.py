@@ -9,6 +9,7 @@ class LogisticRegression():
 		self.classes=set(Y)
 		if len(self.classes)>2:
 			raise ValueError("This problem is for binary classification expected only 2 classes but given %d"%(len(self.classes)))
+		self.gd()
 		return self
 	def hypo(self,it):
 		res=1/(1+e**(LR.hyp(self,it)))
@@ -31,7 +32,6 @@ class LogisticRegression():
 				#self.theta[i]-=rate*(ts)
 			t=self.cost()
 	def predict(self,x):
-		self.gd()
 		#if not self.ran:self.gd()
 		#else:LogisticRegression.ran+=1
 		x=np.array(x)
