@@ -1,4 +1,4 @@
-from .GLM.lr import checkfit
+#from .GLM.lr import checkfit
 import numpy as np
 class nx:
 	"""a class for custom methods in numpy"""
@@ -20,16 +20,16 @@ class nx:
 		return b
 				
 def split_train_test(X,Y,per=20):
-		"""slpits training and testing data
-		X=feature vector
-		Y=target vector
-		per=percentage of data the training set should take.
-		Example:
-			from sklearn.datasets import load_iris
-			a=load_iris()
-			train_f,train_l,test_f,test_l=split_train_test(a.data,a.target)
-		"""
-		if checkfit(X,Y):
+			"""slpits training and testing data
+			X=feature vector
+			Y=target vector
+			per=percentage of data the training set should take.
+			Example:
+				from sklearn.datasets import load_iris
+				a=load_iris()
+				train_f,train_l,test_f,test_l=split_train_test(a.data,a.target)
+			"""
+			#if checkfit(X,Y):
 			class_set=set(Y)
 			l=list(Y)
 			count=l.count(list(class_set)[0])
