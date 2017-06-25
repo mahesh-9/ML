@@ -59,6 +59,16 @@ def normalize(X):
 		q=(X[i]-mi)/(ma-mi)
 		r[i]=q
 	return r
+def check_labels(y):
+	"""creates one-hot vector for the target variables
+	for example,if a training set consists of multiple classes y=(0,1,2...n)
+	one-hot vector for y(0)=[1,0,0,..n],y(2)=[0,0,1,0,..n]"""
+	no_=y.shape[0]
+	class_set=set(y)
+	temp=np.full([no_,len(class_set)],0.0)
+	for i in range(len(y)):
+		temp[i][y[i]]=1
+	return temp
 				
 			
 		
