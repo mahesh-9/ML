@@ -65,3 +65,24 @@ class brain:
 		for i in range(len(self.layers[it])):
 			self.layers[it][i]=activations[i]
 		return self
+	def _hypo(self,v):
+		temp_f=self.feat[v]
+		out_act=None
+		epoch=1
+		length=len(self.layers)
+		def wrapper(arr):
+			nonlocal length,epoch,out_act
+			i=nx(arr)
+			temp_f=i.add_col(col_no=0,val=1)
+			activations=[]
+			#for i in range(1,len(self.layers)):
+			su=0
+			for j in self.wpl[epoch-1]:
+				for k in range(len(j)):
+					su+=self.wpl[j][k]*temp_f[k]
+			activations.append(sigmoid(su))
+			if epoch==(length-1):
+				out_act=activations
+				return out_act
+			else:wrapper(activations)
+		return wrapper
