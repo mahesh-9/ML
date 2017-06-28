@@ -46,7 +46,7 @@ class brain:
 		inputs to the other hidden layers
 		Parameters:
 		it=layer number
-		prime:if True calculates the derivative (default:False)
+		prime:if True calculates the derivative of the activation function(sigmoid)(default:False)
 		"""
 		temp_f=self.feat
 		i=nx(temp_f)
