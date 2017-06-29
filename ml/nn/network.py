@@ -35,13 +35,14 @@ class brain:
 				self.totl=layers
 				self.layers.append(X)
 				for i in range(self.totl):
-					l=[np.full([neurons[i],],0.0)]
+					l=np.full([neurons[i],],0.0)
 					self.layers.append(l)
 					if i==self.totl-1:
-						out_l=[np.full([len(list(self.class_set)),],0.0)]
+						out_l=np.full([len(list(self.class_set)),],0.0)
 						self.layers.append(out_l)
-				for i in range(1,(len(self.layers))):
-					w=np.random.random_sample((len(self.layers[i]),len(self.layers[i-1])+1))
+				print(len(self.layers))
+				for j in range(1,len(self.layers)):
+					w=np.random.random_sample((len(self.layers[j]),len(self.layers[j-1])+1))
 					self.wpl.append(w)
 	def _feed_forward(self,it,prime=False):
 		""" calculates the activations of neurons which are inturn 
