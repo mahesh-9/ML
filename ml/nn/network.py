@@ -67,7 +67,7 @@ class brain:
 			self.layers[it][i]=activations[i]
 		return self
 	def _hypo(self,v):
-		temp_f=self.feat[v]
+		temp_X=self.feat[v]
 		out_act=None
 		epoch=1
 		length=len(self.layers)
@@ -86,4 +86,4 @@ class brain:
 				out_act=activations
 				return out_act
 			else:wrapper(activations)
-		return wrapper
+		return wrapper(temp_X)
