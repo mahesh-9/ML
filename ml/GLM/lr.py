@@ -2,7 +2,11 @@
 __author__="Aakash"
 from ..numc import *
 class LR():
-	def fit(self,X,Y):
+	def fit(self,X,Y,n_eq=False):
+		"""
+		Fits the training data(X,Y).
+		n_eq=if true solves for theta using normal equations method.(default=False)
+		"""
 		if checkfit(X,Y):
 			if not isinstance(X,np.ndarray):self.a=np.array(X)
 			else:self.a=X
@@ -11,6 +15,8 @@ class LR():
 			self.target=Y
 			self.theta=np.zeros(self.feat.shape[1])
 			self.m=self.a.shape[0]
+			if n_eq:self.norm_eq()
+			else:self.gd()
 	def hyp(self,it=None):
 		"""returns the hypothesis equation of a pirticular feature"""
 		return self.theta.dot(self.feat[it])				
@@ -36,16 +42,11 @@ class LR():
 		#return self.theta
 	def predict(self,x):
 		"""predicting the values"""
-		d = int(input("enter 1 for norm_eq or 2 for gd" ))
-		if d==1:
-			self.norm_eq()
-		elif d==2:
-			self.gd()
 		#return x.dot(self.theta[1:])
 		return x.dot(self.theta[1:])+self.theta[0]
 	
 	def norm_eq(self):
-		""" replacement for gd , just providing the useless alternative"""
+		"""An alternative method to solve for theta"""
 		Xt_X = self.feat.T.dot(self.feat)
 		Xt_Y = self.feat.T.dot(self.target)
 		self.theta = np.linalg.solve(Xt_X,Xt_Y)
