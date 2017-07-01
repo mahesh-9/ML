@@ -36,9 +36,20 @@ class LR():
 		#return self.theta
 	def predict(self,x):
 		"""predicting the values"""
-		self.gd()
+		d = int(input("enter 1 for norm_eq or 2 for gd" ))
+		if d==1:
+			self.norm_eq()
+		elif d==2:
+			self.gd()
 		#return x.dot(self.theta[1:])
 		return x.dot(self.theta[1:])+self.theta[0]
+	
+	def norm_eq(self):
+		""" replacement for gd , just providing the useless alternative"""
+		Xt_X = self.feat.T.dot(self.feat)
+		Xt_Y = self.feat.T.dot(self.target)
+		self.theta = np.linalg.solve(Xt_X,Xt_Y)
+		return self.theta
 	@property
 	def intercept_coef(self):
 		return "intercept:{} coef:{}".format(self.theta[0],self.theta[1:])
