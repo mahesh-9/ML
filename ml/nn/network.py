@@ -40,7 +40,6 @@ class brain:
 					if i==self.totl-1:
 						out_l=np.full([len(list(self.class_set)),],0.0)
 						self.layers.append(out_l)
-				print(len(self.layers))
 				for j in range(1,len(self.layers)):
 					w=np.random.random_sample((len(self.layers[j]),len(self.layers[j-1])+1))
 					self.wpl.append(w)
