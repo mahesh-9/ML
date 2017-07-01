@@ -5,7 +5,7 @@ class LR():
 	def fit(self,X,Y,n_eq=False):
 		"""
 		Fits the training data(X,Y).
-		n_eq=if true solves for theta using normal equations method.(default=False)
+		n_eq=if true solves for theta using normal equations method.(default=False,solves using gradient descent.)
 		"""
 		if checkfit(X,Y):
 			if not isinstance(X,np.ndarray):self.a=np.array(X)
