@@ -4,7 +4,6 @@ from .lr import LR
 class LogisticRegression():
 	def fit(self,X,Y):
 		LR.fit(self,X,Y)
-		#self.ran=0
 		return self
 	def hypo(self,it):
 		res=1/(1+e**(-LR.hyp(self,it)))
@@ -27,10 +26,7 @@ class LogisticRegression():
 			t=self.cost()
 	def predict(self,x):
 		self.gd()
-		#if not self.ran:self.gd()
-		#else:LogisticRegression.ran+=1
 		x=np.array(x)
-		#return self._labify(x.dot(self.theta[1:]))
 		return x.dot(self.theta[1:])+self.theta[0]
 		
 		
