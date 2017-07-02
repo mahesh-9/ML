@@ -26,7 +26,7 @@ class SVM():
 	def gd(self,rate=0.001,loops=100):
 		for k in range(loops):
 			for i in range(len(self.theta)):
-				ts=0111
+				ts=0
 				for j in range(self.m):
 					res = (self.hypo(it=j)-self.target[j])*self.feat[j][i]
 					ts+=res
