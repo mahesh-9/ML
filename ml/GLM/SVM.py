@@ -21,12 +21,12 @@ class SVM():
 	def cost(self):
 		s =0 
 		for _ in range(self.m):
-			s+= (self.target[_])*self.cost1()+ (1-self.target[_])*self.cost2()
+			s+= (self.target[_])*self.cost1(_)+ (1-self.target[_])*self.cost2(_)
 			return s
 	def gd(self,rate=0.001,loops=100):
 		for k in range(loops):
 			for i in range(len(self.theta)):
-				ts=0111
+				ts=0
 				for j in range(self.m):
 					res = (self.hypo(it=j)-self.target[j])*self.feat[j][i]
 					ts+=res
