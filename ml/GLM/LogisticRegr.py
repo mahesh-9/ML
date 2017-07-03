@@ -27,7 +27,7 @@ class LogisticRegression():
 	def predict(self,x):
 		self.gd()
 		x=np.array(x)
-		return x.dot(self.theta[1:])+self.theta[0]
+		return 1/(1+np.exp(-(x.dot(self.theta[1:])+self.theta[0])))
 		
 		
 		

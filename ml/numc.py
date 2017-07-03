@@ -55,5 +55,5 @@ def split_train_test(X,Y,per=20):
 				s_i+=count
 				ins+=ind
 				temp+=count-ind
-			return n_train_f,n_train_t,n_test_f,n_test_t
+			return n_train_f,n_train_t,n_test_f,n_test_t,
 		
