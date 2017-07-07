@@ -27,12 +27,4 @@ class Multi():
                         t=self.cost()
         def predict(self,x):
                 x=np.array(x)
-                return 1/(1+np.exp(-(x.dot(self.theta[1:])+self.theta[0])))
-
-
-
-~                                                                                                                                                                                                          
-~                                                                                                                                                                                                          
-~                                                                                                                                                                                                          
-~                                                                                                                                                                                                          
-~                           
+                return 1/(1+np.exp(-(x.dot(self.theta[1:])+self.theta[0])))                                                                                 
