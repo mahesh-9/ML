@@ -18,13 +18,12 @@ def tanh(X):
 	else:
 		X=np.array(X)
 		return tanh(X)
-def softmax(c,i):
+def softmax(X):
 	"""an activation function which outputs the value between (0,1)"""
-	n=np.exp(c[i])
-	s=0
-	for j in range(len(c)):
-		s+=np.exp(c[j])
-	return n/(s)	
+	_X=np.full(X.shape,np.inf)
+	for i in range(len(X)):
+		_X[i]=exp(X[i])/(np.sum(np.exp(X),axis=0))
+	return _X
+		
 	
-			
 	
