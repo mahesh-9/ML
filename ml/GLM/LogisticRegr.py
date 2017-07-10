@@ -2,7 +2,7 @@
 from math import log,e
 from ..numc import *
 from .lr import LR
-class Multi():
+class LogisticRegression():
         def fit(self,X,Y):
                 LR.fit(self,X,Y)
                 return self
