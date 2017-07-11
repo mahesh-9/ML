@@ -1,5 +1,5 @@
 # ML
 This Respository consists of basic machine learning algorithms which are built from scratch
-# Dependencies:
+## Dependencies:
   1.Numpy
 
