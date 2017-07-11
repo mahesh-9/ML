@@ -5,7 +5,7 @@ from .lr import LR
 class LogisticRegression():
         def fit(self,X,Y):
                 LR.fit(self,X,Y)
-                return self
+                self.gd()
         def hypo(self,it):
                 res=1/(1+e**(-LR.hyp(self,it)))
                 return res
@@ -25,7 +25,7 @@ class LogisticRegression():
                                 self.theta[i]-=rate*(1/(self.m))*(ts)
                                 #self.theta[i]-=rate*(ts)
                         t=self.cost()
+                        print("loss after iteration %d : %f"%(k,t))
         def predict(self,x):
-                self.gd();
                 x=np.array(x)
                 return 1/(1+np.exp(-(x.dot(self.theta[1:])+self.theta[0])))                                                                                 
