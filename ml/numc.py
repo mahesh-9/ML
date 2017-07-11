@@ -21,7 +21,7 @@ class nx:
 			b[i]=temp
 		return b
 				
-def split_train_test(X,Y,per=20):
+def split(X,Y,per=20):
 			"""slpits training and testing data
 			X=feature vector
 			Y=target vector
