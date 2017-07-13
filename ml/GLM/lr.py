@@ -30,6 +30,7 @@ class LR():
 	#def gd(self,rate=0.001,loops=700):
 	def gd(self,rate=0.01,loops=1000):
 		"""gradient descent"""
+		itr = loops//10
 		for k in range(loops):
 			for i in range(len(self.theta)):
 				ts=0
@@ -38,6 +39,8 @@ class LR():
 					ts+=res
 				self.theta[i]-=rate*(1/(self.m))*(ts)
 				#self.theta[i]-=rate*(ts)
+			if itr%10==0:
+				print("error is :{}".format(self.cost()))
 			t=self.cost()
 		#return self.theta
 	def predict(self,x):
