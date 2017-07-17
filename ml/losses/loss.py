@@ -1,5 +1,6 @@
 from numpy import np
 from math import log
+import numpy as np
 
 class LOSS:
 	
@@ -9,18 +10,16 @@ class LOSS:
 		self.hyp = hyp
 		self.m = len(self.feat)
 		L=np.zeros((self.m,))
-		for i in range(self.m):
-			L[i] = -log(softmax(self.hyp(i)))
-		return np.mean(L)
+		for _ in range(self.m):
+			s += self.target[_]*log(self.hyp(self.feat[_]))+(1-self.target[_])*log(1-self.hyp(self.feat[_]))
+		return (s/self.m)
 
 	def cat_cross_entropy(self,classes):
 		self.target= one_hotvector(self.target)
 		for i in range(self.m):
 			for j in range(classes):
-				res= self.target[i][j]*log(self.hyp(i))
-				L += res
-		
-		L = -L/self.m
+				res+= self.target[i][j]*log(self.hyp(i))
+		L = -res/self.m
 		return L
 
 
