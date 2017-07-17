@@ -6,6 +6,8 @@ class sgd():
 		self.learn_rate=learn_rate
 		self.label =label
 		self.theta=np.zeros(self.par.shape[1])
+			
+
 	
 	def opt(self):
 	"""implemented for LR for now"""
