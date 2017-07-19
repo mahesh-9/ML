@@ -43,28 +43,6 @@ class brain:
 				for j in range(1,len(self.layers)):
 					w=np.random.random_sample((len(self.layers[j]),len(self.layers[j-1])+1))
 					self.wpl.append(w)
-	def _feed_forward(self,it,prime=False):
-		""" calculates the activations of neurons which are inturn 
-		inputs to the other hidden layers
-		Parameters:
-		it=layer number
-		prime:if True calculates the derivative (default:False)
-		"""
-		temp_f=self.feat
-		i=nx(temp_f)
-		temp_f=i.add_col(col_no=0,val=1)
-		activations=[]
-		for i in range(len(self.layers[it])):
-			s=0
-			for j in self.wpl[it]:
-				for k in range(len(j)):
-					s+=j[k]*temp_f[k]
-			if prime:
-				activations.append(sigmoid(s,prime=True))
-			else:activations.append(sigmoid(s))
-		for i in range(len(self.layers[it])):
-			self.layers[it][i]=activations[i]
-		return self
 					
 	def _hypo(self,v):
 		temp_X=self.feat[v]
