@@ -8,8 +8,6 @@ class LOSS:
 		self.feat=feat
 		self.w=weights
 		self.hyp=hyp
-	def normal(self,X):
-		return np.matmul(self.w,X)
 	def sigmoidal(self,X):
 		return sigmoid(normal(self,X))
 	def soft_max(self,X):
@@ -48,6 +46,9 @@ class LOSS:
 			for j in range(k):
 				s+=self.target[i][k]*log(self.hyp(self.feat[i])[k])
 		return -s
+def normal(obj,X):
+	return np.matmul(obj.w,X)
+
 
 			
 			
