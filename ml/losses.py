@@ -1,3 +1,4 @@
+#TODO Not completed yet. 
 import numpy as np
 from math import log,e
 from ml.activation.util import softmax,sigmoid
