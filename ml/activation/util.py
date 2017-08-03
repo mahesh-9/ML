@@ -25,6 +25,14 @@ def softmax(X):
 	for i in range(len(X)):
 		_X[i]=exp(X[i])/(np.sum(np.exp(X),axis=0))
 	return _X
+def relu(X,ep=1e-1,prime=False):
+	if isinstance(X,np.ndarray):
+		if prime :
+			grads= 1.0 * (X > 0)
+			grads[grads==0]=1e-1
+			return grads
+		else: return np.maximum(ep*Xadded,X)
+		
 		
 	
 	
