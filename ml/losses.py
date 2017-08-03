@@ -13,7 +13,7 @@ class LOSS:
 	def soft_max(self,X):
 		return softmax(normal(self,X))
 	#@staticmethod
-	def mean_squared_loss(self,features,targets,hyp=None):
+	def mean_squared_loss(self,features,targets,hyp="Regression"):
 		self.f=features
 		self.hyp=HYP[hyp]
 		self.target=targets
@@ -24,7 +24,7 @@ class LOSS:
 			su+=res
 		return np.mean(su)
 	#@staticmethod
-	def cross_entropy(self,targets,features,hyp):
+	def cross_entropy(self,targets,features,hyp="binary_class"):
 		self.feat=features
 		self.target=targets
 		self.hyp=HYP[hyp]
