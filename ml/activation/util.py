@@ -4,7 +4,7 @@ def sigmoid(X,prime=None):
 	"""an activation function which outputs the value between (0,1)"""
 	if isinstance(X,np.ndarray):
 		if prime:
-			return X * (np.ones(len(X))-(X))
+			return sigmoid(X) * (np.ones(len(X))-sigmoid((X)))
 
 		else:
 			return 1.0/(1.0+np.exp(-X))
