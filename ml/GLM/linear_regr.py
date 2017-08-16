@@ -3,6 +3,7 @@ from preprocess.util import normalize,one_hot
 from preprocess.util import nx,checkfit
 from losses import * 
 from abc import ABCMeta,abstractmethod
+from solvers import SGD
 class Base(metaclass=ABCMeta):
 	def __init__(self,add_bias=True,shuffle=False,one_hot=False,norm=False,no_iter=1000):
 		self.ad_bias=add_bias
@@ -30,18 +31,25 @@ class Regressor(Base):
 		if self.it_no<0:raise ValueError("The number of iterations should be greater than or equal to zero")
 	def fit(self,X,Y):
 		if checkfit(X,Y):
+			self.n_classes=len(set(Y))
 			self.feat=X
 			self.target=Y
 			if ad_bias:
-				self.weights=np.zeros(X.shape[1])
-				self.bias=np.zeros(1)
+				if self.one_hot:
+					self.target=one_hot(Y)
+					self.loss="categorical_cross_entropy"
+					self.weights=np.random.random_sample((self.feat[1],self.n_classes))
+				else:
+					self.weights=np.zeros(X.shape[1])
+					self.bias=np.zeros(1)
 			else:
 				self.feat=nx(self.feat)
 				self.feat.add_col(0,val=1)
-				self.weights=np.zeros(self.feat.shape[1])
-			if self.one_hot:
-				self.target=one_hot(Y)
-				self.loss="categorical_cross_entropy"
+				if self.one_hot:
+					self.target=one_hot(Y)
+					self.loss="categorical_cross_entropy"
+					self.weights=np.random.random_sample((self.feat[1],self.n_classes))
+				else:self.weights=np.zeros(self.feat.shape[1])
 			else:self.loss="cross_entropy"
 			self.tr_ex=len(self.feat)
 			if self.tr<20000:
@@ -55,7 +63,11 @@ class Regressor(Base):
 			Xt_Y = self.feat.T.dot(self.target)
 			self.weights = np.linalg.solve(Xt_X,Xt_Y)
 			return self.weights
-		else:pass
+		elif self.opt="SGD":
+	
+			
+			
+			
 			
 				
 			
