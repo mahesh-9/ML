@@ -55,7 +55,7 @@ class Regressor(Base):
 			Xt_Y = self.feat.T.dot(self.target)
 			self.weights = np.linalg.solve(Xt_X,Xt_Y)
 			return self.weights
-		else:
+		else:pass
 			
 				
 			
