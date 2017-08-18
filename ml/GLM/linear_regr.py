@@ -1,10 +1,8 @@
 import numpy as np
 from ..preprocess.util import normalize,one_hot
 from ..preprocess.util import checkfit,nx
-#from ..numc import nx
 from ..losses import * 
 from abc import ABCMeta,abstractmethod
-#from solvers import SGD
 class Base(metaclass=ABCMeta):
 	def __init__(self,add_bias=True,shuffle=False,one_hot=False,norm=False,no_iter=1000):
 		self.ad_bias=add_bias
