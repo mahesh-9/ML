@@ -21,9 +21,9 @@ class Base(metaclass=ABCMeta):
 	@property
 	def params(self):
 		if self.ad_bias:
-			return self.weights,self.bias
+			return "intercept:{}	coef:{}".format(self.bias,self.weights)	
 		else:
-			return self.weights[1:],self.weights[0]
+			return "intercept:{}	coef:{}".format(self.weights[0],self.weights[1:])
 class Regressor(Base):
 	def __init__(self,add_bias=False,shuffle=False,one_hot=True,norm=False,no_iter=1000):
 		Base.__init__(self,add_bias,shuffle,one_hot,norm,no_iter)
