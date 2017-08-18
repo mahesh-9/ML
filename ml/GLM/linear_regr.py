@@ -1,10 +1,8 @@
 import numpy as np
 from ..preprocess.util import normalize,one_hot
 from ..preprocess.util import checkfit,nx
-#from ..numc import nx
 from ..losses import * 
 from abc import ABCMeta,abstractmethod
-#from solvers import SGD
 class Base(metaclass=ABCMeta):
 	def __init__(self,add_bias=True,shuffle=False,one_hot=False,norm=False,no_iter=1000):
 		self.ad_bias=add_bias
@@ -16,8 +14,8 @@ class Base(metaclass=ABCMeta):
 	def fit(self,X,Y):
 		"""fits features and targets for the model"""
 	def predict(self,X):
-		if self.ad_bias:
-			return np.matmul(self.weights[1:],X)+self.weights[0]
+		if not self.ad_bias:
+			return np.matmul(X,self.weights[1:])+self.weights[0]
 		else:
 			return np.matmul(self.weights,X)
 	@property
@@ -52,12 +50,12 @@ class Regressor(Base):
 					self.loss="categorical_cross_entropy"
 					self.weights=np.random.random_sample((X.shape[1],self.n_classes))
 				else:self.weights=np.zeros(self.feat.shape[1])
-			#else:self.loss="cross_entropy"
 			self.tr_ex=len(X)
 			if self.tr_ex<20000:
 				self.opt="normal"
 			else:
 				self.opt="SGD"
+			self._run()
 	def _run(self):
 		if self.opt=="normal":
 			Xt_X = self.feat.T.dot(self.feat)
