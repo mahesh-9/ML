@@ -1,6 +1,6 @@
 """ Linear regression for multiple features """
 __author__="Aakash"
-from ..numc import *
+from ..preprocess.util import *
 class LR():
 	def fit(self,X,Y,n_eq=False):
 		"""
