@@ -1,6 +1,6 @@
 """Binary classification"""
 from math import log,e
-from ..numc import *
+from ..Preprocess import *
 from .lr import LR
 class LogisticRegression():
 	def fit(self,X,Y):
