@@ -2,7 +2,7 @@ import numpy as np
 from math import log
 from ..activation.util import sigmoid
 from ..preprocess.util import *
-from ..GLM.lr import checkfit,check_labels
+#from ..GLM.lr import checkfit,check_labels
 class brain:
 	def __init__(self,hidden_l=1,ep=10e-4):
 		self.hidden_layers=hidden_l
@@ -23,7 +23,7 @@ class brain:
 			self.m=len(X)
 			self.class_set=set(Y)
 			if one_hot:
-				Y=check_labels(Y)
+				Y=one_hot_encoding(Y)
 				self.target=Y
 			if layers != None:
 				if neurons==None:

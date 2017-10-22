@@ -9,7 +9,7 @@ def checkfit(X,Y):
 	elif len(X.shape)!=2:
 			raise ValueError("all the values in the feature vector do not have same dimensions")
 	else:return True
-def one_hot(y):
+def one_hot_encoding(y):
 	"""creates one-hot vector for the target variables
 	for example,if a training set consists of multiple classes y=(0,1,2...n)
 	one-hot vector for y(0)=[1,0,0,..n],y(2)=[0,0,1,0,..n]"""
