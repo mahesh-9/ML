@@ -1,6 +1,6 @@
 from math import exp
 import numpy as np
-def sigmoid(X,prime=None):
+def sigmoid(X):
 	"""an activation function which outputs the value between (0,1)"""
 	
 	if isinstance(X,np.ndarray):
@@ -15,7 +15,7 @@ def sigmoidDerivative(X):
 	     output : Sigmoid derivative of the input  """
 
 	if isinstance(X,np.ndarray):
-		return X*(1-X)
+		return sigmoid(X)*(1-sigmoid(X))
 	else:
 		X = np.array(X)
 		return sigmoidDerivative(X)
