@@ -44,24 +44,4 @@ class brain:
 					w=np.random.random_sample((len(self.layers[j]),len(self.layers[j-1])+1))
 					self.wpl.append(w)
 					
-	def _hypo(self,v):
-		temp_X=self.feat[v]
-		out_act=None
-		epoch=1
-		length=len(self.layers)
-		def wrapper(arr):
-			nonlocal length,epoch,out_act
-			i=nx(arr)
-			temp_f=i.add_col(col_no=0,val=1)
-			activations=[]
-			#for i in range(1,len(self.layers)):
-			su=0
-			for j in self.wpl[epoch-1]:
-				for k in range(len(j)):
-					su+=self.wpl[j][k]*temp_f[k]
-			activations.append(sigmoid(su))
-			if epoch==(length-1):
-				out_act=activations
-				return out_act
-			else:wrapper(activations)
-		return wrapper(temp_X)
+
