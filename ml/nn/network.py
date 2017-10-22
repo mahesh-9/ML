@@ -1,7 +1,7 @@
 import numpy as np
 from math import log
 from ..activation.util import sigmoid
-from ..numc import *
+from ..preprocess.util import *
 from ..GLM.lr import checkfit,check_labels
 class brain:
 	def __init__(self,hidden_l=1,ep=10e-4):
