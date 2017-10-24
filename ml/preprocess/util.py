@@ -8,13 +8,13 @@ def checkfit(X,Y):
 		raise ValueError("The length of the features vector and target vector does not match")
 	elif len(X.shape)!=2:
 			raise ValueError("all the values in the feature vector do not have same dimensions")
-	else:return True
+	else:return X,Y
 def one_hot_encoding(y):
 	"""creates one-hot vector for the target variables
 	for example,if a training set consists of multiple classes y=(0,1,2...n)
 	one-hot vector for y(0)=[1,0,0,..n],y(2)=[0,0,1,0,..n]"""
 	no_=y.shape[0]
-	class_set=set(y)
+	class_set=set([_[0] for _ in y if isinstance(_,(list,np.ndarray))])
 	temp=np.full([no_,len(class_set)],0.0)
 	for i in range(len(y)):
 		temp[i][y[i]]=1
