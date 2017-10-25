@@ -127,6 +127,19 @@ class Preprocess:
 			if not j[0].endswith(SUPPORTED_FORMATS):
 				raise ValueError("FILE FORMAT NOT SUPPORTED")
 			else:formats[i]=j[0][-3:]
-			return True	
+			return True
+def sub_mean_ch(X):
+	"""
+		removes per channel mean
+	"""
+                temp_images=[]
+                X=X.astype(np.float32)
+                for i in X:
+                        i[:,:,0] -= 103.939
+                        i[:,:,1] -= 116.779
+                        i[:,:,2] -= 123.68
+                        i = i.transpose((2,0,1))
+                        temp_images.append(i)
+                return np.array(temp_images).astype(np.float32)	
 		
 		
