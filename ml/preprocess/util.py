@@ -1,4 +1,8 @@
+import os
+from scipy import misc
 import numpy as np
+SUPPORTED_FORMATS=("png","jpg","PNG","JPG")
+IMG_SAVE_PATH = "~/Desktop/ML/results/"
 def checkfit(X,Y):
 	if not isinstance(X,np.ndarray):
 		X=np.array(X)
@@ -84,5 +88,45 @@ class nx:
 			temp=np.insert(self.ob[i],col_no,val)
 			b[i]=temp
 		return b
+class Preprocess:
+	"""
+	Class for preprocessing, mainly deals with images and thier conversion to arrays,checks for valid directory and other paths
+	
+	INPUT : root path(optional)
+	"""
+	def __init__(self,root=None):
+		self.root_path=root
+	def check_dir(self,path):
+		"""check on the directory
+		
+		path=root path to the directory
+
+		"""
+		p=path
+		if not path.endswith("/"):
+			raise ValueError("Provided Invalid Path")
+		if not os.path.exists(path):
+			raise ValueError("Path does not exists")
+		else:
+			file_l=os.listdir(path)
+			self.formats=checkformat(file_l)
+			class_list=list(self.formats.keys())
+			self.classes=class_list
+		self.root_path=p
+	def checkformat(self,path=None):
+		"""check format of the images in the directory
+		INPUT PARAMS:
+			path= path to class directories
+		"""
+		if not path:raise ValueError("Path not provided")
+		formats={}
+		dir_list=os.listdir(self.root_path)
+		for i in dir_list:
+			new_path=os.path.join(self.root_path,i)
+			j=os.listdir(new_path)
+			if not j[0].endswith(SUPPORTED_FORMATS):
+				raise ValueError("FILE FORMAT NOT SUPPORTED")
+			else:formats[i]=j[0][-3:]
+			return True	
 		
 		
