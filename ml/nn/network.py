@@ -2,6 +2,7 @@ import numpy as np
 from math import log
 from ..activation.util import sigmoid
 from ..preprocess.util import *
+from ..losses import LOSS.categorical_cross_entropy
 #from ..GLM.lr import checkfit,check_labels
 class brain:
 	def __init__(self,hidden_l=1,ep=10e-4):
@@ -45,6 +46,18 @@ class brain:
 			for j in range(1,len(self.layers)):
 				w=np.random.random_sample((len(self.layers[j]),len(self.layers[j-1])+1))
 				self.wpl.append(w)
+	def backprop(self,x,y):
+		self.weight_sum_list,self.act_list=self._forward_pass(x,			
+	def _forward_pass(self,in_,weights,biases):
+		weight_sum_list=[]
+		act_list=[]
+		for w,b in zip(weights,biases):
+			weight_sum=np.dot(in_,weights)+biases
+			weight_sum_list.append(weight_sum)
+			act_list.append(sigmoid(weight_sum))
+		return weight_sum_list,act_list
+	
+		
 			
 					
 
