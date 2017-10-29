@@ -30,7 +30,7 @@ class SGD:
 			np.shuffle(self.train_data)
 			batches=self.make_batches(self.batch_size)
 			for i in batches:self.logits(i)
-	def _logits(self,mini_batch):
+	def _get_grads(self,mini_batch):
 		for f,t in mini_batch:pass
 		#TODO complete this	
 			
