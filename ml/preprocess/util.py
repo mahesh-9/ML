@@ -28,10 +28,8 @@ def normalize(X):
 		new_x=(x-min(x))/(max(x)-min(x))"""
 	mi=np.min(X,axis=0)
 	ma=np.max(X,axis=0)
-	r=np.full(X.shape,np.inf)
-	for i in range(len(X)):
-		q=(X[i]-mi)/(ma-mi)
-		r[i]=q
+	r=np.zeros(X.shape)
+	r= np.divide((X-mi),(mi-ma))
 	return r
 def split_train_test(X,Y,per=20):
 			"""slpits training and testing data
@@ -90,7 +88,7 @@ class nx:
 		return b
 class Preprocess:
 	"""
-	Class for preprocessing, mainly deals with images and thier conversion to arrays,checks for valid directory and other paths
+	Class for preprocessing, mainly deals with images and their conversion to arrays,checks for valid directory and other paths
 	
 	INPUT : root path(optional)
 	"""
