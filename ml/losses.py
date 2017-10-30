@@ -7,12 +7,15 @@ class LOSS:
 		self.feat=feat
 		self.w=weights
 		self.hyp=hyp
+
 	@staticmethod
 	def sigmoidal(self,X):
 		return sigmoid(normal(self,X))
+
 	@staticmethod
 	def soft_max(self,X):
 		return softmax(self.normal(self,X))
+
 	@staticmethod
 	def mean_squared_loss(self,features,targets,hyp="Regression"):
 		self.f=features
@@ -24,6 +27,7 @@ class LOSS:
 			res=(self.hyp(self.feat[i])-self.target[i])**2
 			su+=res
 		return np.mean(su)
+
 	@staticmethod
 	def cross_entropy(self,targets,features,hyp="binary_class"):
 		self.feat=features
@@ -35,6 +39,7 @@ class LOSS:
 			s+=self.target[_]*log(self.hyp(self.feat[_]))+(1-self.target[_])*log(1-self.hypo(self.feat[_]))
 		r=(1/self.no_train)*s
 		return r
+
 	@staticmethod
 	def categorical_cross_entropy(self,feat,target,hyp="multiclass"):
 		self.target=target
@@ -42,15 +47,13 @@ class LOSS:
 		self.feat=feat
 		self.no_train=len(self.feat)
 		self.hyp=HYP[hyp]
-		s=0
-		for i in range(self.no_train):
-			for j in range(k):
-				s+=self.target[i][k]*log(self.hyp(self.feat[i])[k])
-		r=(1/self.no_train)*s
+		r = np.dot(self.target,np.log(self.hyp(self.feat)))
 		return r
+
 	@staticmethod
 	def normal(self,obj,X):
 		return np.matmul(obj.weights,X)
+
 HYP={"Regression":LOSS.normal,"binary_class":LOSS.sigmoidal,"multiclass":LOSS.soft_max}
 			
 			
