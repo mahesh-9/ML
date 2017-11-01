@@ -46,8 +46,11 @@ class brain:
 			for j in range(1,len(self.layers)):
 				w=np.random.random_sample((len(self.layers[j]),len(self.layers[j-1])+1))
 				self.wpl.append(w)
+			for k in range(1,len(self.layers)):
+				b=np.random.ramdom_sample((1,self.neurons[k]))
+				self.bpl.append(b)
 	def backprop(self,x,y):
-		self.weight_sum_list,self.act_list=self._forward_pass(x,			
+		self.weight_sum_list,self.act_list=self._forward_pass(x,self.wpl,self.bpl)			
 	def _forward_pass(self,in_,weights,biases):
 		weight_sum_list=[]
 		act_list=[]
@@ -56,7 +59,7 @@ class brain:
 			weight_sum_list.append(weight_sum)
 			act_list.append(sigmoid(weight_sum))
 		return weight_sum_list,act_list
-	
+	def _backward_pass(self):pass
 		
 			
 					
