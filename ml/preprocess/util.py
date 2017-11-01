@@ -1,5 +1,5 @@
 import os
-from scipy import misc
+#from scipy import misc
 import numpy as np
 SUPPORTED_FORMATS=("png","jpg","PNG","JPG")
 IMG_SAVE_PATH = "~/Desktop/ML/results/"
@@ -130,14 +130,14 @@ def sub_mean_ch(X):
 	"""
 		removes per channel mean
 	"""
-                temp_images=[]
-                X=X.astype(np.float32)
-                for i in X:
-                        i[:,:,0] -= 103.939
-                        i[:,:,1] -= 116.779
-                        i[:,:,2] -= 123.68
-                        i = i.transpose((2,0,1))
-                        temp_images.append(i)
-                return np.array(temp_images).astype(np.float32)	
+	temp_images=[]
+	X=X.astype(np.float32)
+	for i in X:
+		i[:,:,0] -= 103.939
+		i[:,:,1] -= 116.779
+		i[:,:,2] -= 123.68
+		i = i.transpose((2,0,1))
+		temp_images.append(i)
+	return np.array(temp_images).astype(np.float32)	                
 		
 		
