@@ -1,15 +1,15 @@
 import numpy as np
 from math import log
-from ..activation.util import sigmoid
+from ..activation.util import sigmoid,sigmoidDerivative
 from ..preprocess.util import *
-from ..losses import LOSS.categorical_cross_entropy
+from ..losses import LOSS
 #from ..GLM.lr import checkfit,check_labels
 class brain:
 	def __init__(self,hidden_l=1,ep=10e-4):
-		self.hidden_layers=hidden_l
 		self.e=ep
 		self.layers=[]
 		self.wpl=[]#weights per layer
+		self.bpl=[]
 	def fit(self,X,Y,layers=None,neurons=None,one_hot=True):
 		""" Fits the training data:
 		Parameters:
@@ -36,21 +36,26 @@ class brain:
 			if not isinstance(layers,int):
 				raise ValueError(" parameter layers should be of class int but given %s"%(type(layers))) 
 			self.totl=layers
-			self.layers.append(X)
+			self.layers.append(X)   
 			for i in range(self.totl):
 				l=np.full([neurons[i],],0.0)
 				self.layers.append(l)
 				if i==self.totl-1:
 					out_l=np.full([len(list(self.class_set)),],0.0)
 					self.layers.append(out_l)
-			for j in range(1,len(self.layers)):
-				w=np.random.random_sample((len(self.layers[j]),len(self.layers[j-1])+1))
+			#for j in range(1,len(self.layers)):
+			#	w=np.random.random_sample((len(self.layers[j]),len(self.layers[j-1])+1))
+			for j in range(1,len(neurons)):
+				w=np.random.random_sample((neurons[j],neurons[j-1]+1))
 				self.wpl.append(w)
-			for k in range(1,len(self.layers)):
-				b=np.random.ramdom_sample((1,self.neurons[k]))
-				self.bpl.append(b)
+			for k in range(1,len(neurons)):
+				b=np.random.random_sample((1,neurons[k]))
+				self.bpl.append(b)	
 	def backprop(self,x,y):
-		self.weight_sum_list,self.act_list=self._forward_pass(x,self.wpl,self.bpl)			
+		u_w=[np.zeros(w.shape) for w in self.wpl]
+		u_b=[np.zeros(b.shape) for b in self.bpl]
+		weight_sum_list,act_list=self._forward_pass(x,self.wpl,self.bpl)
+		return self._backward_pass(weight_sum_list,act_list,u_w,u_b)
 	def _forward_pass(self,in_,weights,biases):
 		weight_sum_list=[]
 		act_list=[]
@@ -59,7 +64,20 @@ class brain:
 			weight_sum_list.append(weight_sum)
 			act_list.append(sigmoid(weight_sum))
 		return weight_sum_list,act_list
-	def _backward_pass(self):pass
+	def _backward_pass(self,z_l,a_l,y,w_v,b_v):
+		d_L=LOSS.categorical_cross_entropy(a_l[-1],y,model="nn")*sigmoidDerivative(z_l[-1])
+		b_v[-1]=d_L
+		w_v[-1]=np.dot(d_L,a_l[-2].transpose())
+		for i in range(2,self.layers):
+			w=z_l[-i]
+			a=sigmoidDerivative(w)
+			d_L=np.dot(self.wpl[-i+1].transpose(),d_L)*a
+			b_v[-i]=d_L
+			w_v[-i]=np.dot(d_L,a_l[-i-1].transpose())
+		return b_v,w_v
+
+					
+				
 		
 			
 					
