@@ -3,9 +3,9 @@ from math import log
 from ..activation.util import sigmoid,sigmoidDerivative
 from ..preprocess.util import *
 from ..losses import LOSS
-#from ..GLM.lr import checkfit,check_labels
+from ..optimizers.SGD import *
 class brain:
-	def __init__(self,hidden_l=1,ep=10e-4):
+	def __init__(self,ep=10e-4):
 		self.e=ep
 		self.layers=[]
 		self.wpl=[]#weights per layer
@@ -19,7 +19,6 @@ class brain:
 			neurons=number of neurons for each layer (list),default=None
 			one_hot=one hot vectors of the target values(training labels)
 		"""
-		#if checkfit(X,Y):
 		self.class_set=set([_[0] for _ in Y if isinstance(_,(list,np.ndarray))])
 		if not self.class_set:self.class_set=set(Y)
 		X,Y=checkfit(X,Y)
