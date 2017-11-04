@@ -72,7 +72,7 @@ class nx:
 	"""a class for custom methods in numpy"""
 	def __init__(self,ob):
 		if not isinstance(ob,np.ndarray):
-			return "expected np.array object"
+			raise "expected np.array object"
 		else:
 			self.ob=ob
 	def add_col(self,col_no,val=np.inf):
