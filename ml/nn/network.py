@@ -50,11 +50,13 @@ class brain:
 			for k in range(1,len(neurons)):
 				b=np.random.random_sample((1,neurons[k]))
 				self.bpl.append(b)	
+
 	def backprop(self,x,y):
 		u_w=[np.zeros(w.shape) for w in self.wpl]
 		u_b=[np.zeros(b.shape) for b in self.bpl]
 		weight_sum_list,act_list=self._forward_pass(x,self.wpl,self.bpl)
 		return self._backward_pass(weight_sum_list,act_list,u_w,u_b)
+
 	def _forward_pass(self,in_,weights,biases):
 		weight_sum_list=[]
 		act_list=[]
@@ -63,6 +65,7 @@ class brain:
 			weight_sum_list.append(weight_sum)
 			act_list.append(sigmoid(weight_sum))
 		return weight_sum_list,act_list
+
 	def _backward_pass(self,z_l,a_l,y,w_v,b_v):
 		d_L=LOSS.categorical_cross_entropy(a_l[-1],y,model="nn")*sigmoidDerivative(z_l[-1])
 		b_v[-1]=d_L
