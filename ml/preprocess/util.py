@@ -128,13 +128,39 @@ class Preprocess:
 				raise ValueError("FILE FORMAT NOT SUPPORTED")
 			else:formats[i]=j[0][-3:]
 			return True
+
+	def img_to_array(self,path,cond=False):
+		"""This method converts single image to array
+		
+		INPUT	:
+		
+			path  	:  path to the image
+
+		OUTPUT	:
+			array form of the image(matrix of pixcels)
+		
+		EXAMPLE:
+			This is a method of the class Preprocess so we need to create an instance.
+			>>>i=Preprocess()
+			>>>path="Des0ktop/images/../.jpg"
+			>>>X=i.img_to_array(path)
+		"""
+
+		
+		if not os.path.exists(path):
+				raise ValueError("Provided invalid path")
+		if cond:return np.resize(misc.imread(path),[224,224,3])
+		else:return misc.imread(path)
 	
-def rgb2grey(self,rgb):
-	""" INPUT : Array of rgb image
-	    OUTPUT :Array of Greyscale image
-	"""
-	grey = 0.2989*rgb[:,:,0]+ 0.5870*rgb[:,:,1]+0.1140*rgb[:,:,2]
-	return grey
+	def rgb2grey(self,img_to_array):
+        """ INPUT : Array of rgb image
+            OUTPUT :Array of Greyscale image
+        """
+	r,g,b = img_to_array[:,:,0]+img_to_array[:,:,1]+img_to_array[:,:,2]
+        grey = 0.2989 * r + 0.5870 * g + 0.1140 * b
+        return grey
+
+
 
 def sub_mean_ch(X):
 	"""
