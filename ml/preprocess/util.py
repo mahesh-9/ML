@@ -128,6 +128,7 @@ class Preprocess:
 				raise ValueError("FILE FORMAT NOT SUPPORTED")
 			else:formats[i]=j[0][-3:]
 			return True
+
 	def img_to_array(self,path,cond=False):
 		"""This method converts single image to array
 		
@@ -150,6 +151,17 @@ class Preprocess:
 				raise ValueError("Provided invalid path")
 		if cond:return np.resize(misc.imread(path),[224,224,3])
 		else:return misc.imread(path)
+	
+	def rgb2grey(self,img_to_array):
+        """ INPUT : Array of rgb image
+            OUTPUT :Array of Greyscale image
+        """
+	r,g,b = img_to_array[:,:,0]+img_to_array[:,:,1]+img_to_array[:,:,2]
+        grey = 0.2989 * r + 0.5870 * g + 0.1140 * b
+        return grey
+
+
+
 def sub_mean_ch(X):
 	"""
 		removes per channel mean
@@ -163,5 +175,4 @@ def sub_mean_ch(X):
 		i = i.transpose((2,0,1))
 		temp_images.append(i)
 	return np.array(temp_images).astype(np.float32)	                
-		
-		
+				
