@@ -128,6 +128,28 @@ class Preprocess:
 				raise ValueError("FILE FORMAT NOT SUPPORTED")
 			else:formats[i]=j[0][-3:]
 			return True
+	def img_to_array(self,path,cond=False):
+		"""This method converts single image to array
+		
+		INPUT	:
+		
+			path  	:  path to the image
+
+		OUTPUT	:
+			array form of the image(matrix of pixcels)
+		
+		EXAMPLE:
+			This is a method of the class Preprocess so we need to create an instance.
+			>>>i=Preprocess()
+			>>>path="Des0ktop/images/../.jpg"
+			>>>X=i.img_to_array(path)
+		"""
+
+		
+		if not os.path.exists(path):
+				raise ValueError("Provided invalid path")
+		if cond:return np.resize(misc.imread(path),[224,224,3])
+		else:return misc.imread(path)
 def sub_mean_ch(X):
 	"""
 		removes per channel mean
