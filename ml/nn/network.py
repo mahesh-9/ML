@@ -53,6 +53,16 @@ class brain:
 	def train(self,optimizer="SGD",epoch=30):
 		self.opt=SGD(self.feat,self.target,epoch,self.e)
 		self.f_w,self.f_b=self.opt.optimize(self.wpl,self,bpl)	
+<<<<<<< HEAD
 	
+=======
+		
+
+
+					
+				
+		
+			
+>>>>>>> a842a71bcdc1e3c74fb1b4bdb88806cdf3713dc1
 					
 
