@@ -128,6 +128,14 @@ class Preprocess:
 				raise ValueError("FILE FORMAT NOT SUPPORTED")
 			else:formats[i]=j[0][-3:]
 			return True
+	
+def rgb2grey(self,rgb):
+	""" INPUT : Array of rgb image
+	    OUTPUT :Array of Greyscale image
+	"""
+	grey = 0.2989*rgb[:,:,0]+ 0.5870*rgb[:,:,1]+0.1140*rgb[:,:,2]
+	return grey
+
 def sub_mean_ch(X):
 	"""
 		removes per channel mean
@@ -141,5 +149,4 @@ def sub_mean_ch(X):
 		i = i.transpose((2,0,1))
 		temp_images.append(i)
 	return np.array(temp_images).astype(np.float32)	                
-		
-		
+				
