@@ -1,5 +1,5 @@
 import os
-#from scipy import misc
+from scipy import misc
 import numpy as np
 SUPPORTED_FORMATS=("png","jpg","PNG","JPG")
 IMG_SAVE_PATH = "~/Desktop/ML/results/"
@@ -137,12 +137,12 @@ class Preprocess:
 			path  	:  path to the image
 
 		OUTPUT	:
-			array form of the image(matrix of pixcels)
+			array form of the image(matrix of pixels)
 		
 		EXAMPLE:
 			This is a method of the class Preprocess so we need to create an instance.
 			>>>i=Preprocess()
-			>>>path="Des0ktop/images/../.jpg"
+			>>>path="Desktop/images/../.jpg"
 			>>>X=i.img_to_array(path)
 		"""
 
@@ -153,12 +153,12 @@ class Preprocess:
 		else:return misc.imread(path)
 	
 	def rgb2grey(self,img):
-        """ INPUT : Array of rgb image
-            OUTPUT :Array of Greyscale image
-        """
-	r,g,b = img[:,:,0],img[:,:,1],img[:,:,2]
-        grey = 0.2989 * r + 0.5870 * g + 0.1140 * b
-        return grey
+		""" INPUT : Array of rgb image
+		    OUTPUT :Array of Greyscale image
+		"""
+		r,g,b = img[:,:,0],img[:,:,1],img[:,:,2]
+		grey = 0.2989 * r + 0.5870 * g + 0.1140 * b
+		return grey
 
 
 
