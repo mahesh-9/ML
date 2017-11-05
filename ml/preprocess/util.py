@@ -152,11 +152,11 @@ class Preprocess:
 		if cond:return np.resize(misc.imread(path),[224,224,3])
 		else:return misc.imread(path)
 	
-	def rgb2grey(self,img_to_array):
+	def rgb2grey(self,img):
         """ INPUT : Array of rgb image
             OUTPUT :Array of Greyscale image
         """
-	r,g,b = img_to_array[:,:,0],img_to_array[:,:,1],img_to_array[:,:,2]
+	r,g,b = img[:,:,0],img[:,:,1],img[:,:,2]
         grey = 0.2989 * r + 0.5870 * g + 0.1140 * b
         return grey
 
