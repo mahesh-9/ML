@@ -156,7 +156,7 @@ class Preprocess:
         """ INPUT : Array of rgb image
             OUTPUT :Array of Greyscale image
         """
-	r,g,b = img_to_array[:,:,0]+img_to_array[:,:,1]+img_to_array[:,:,2]
+	r,g,b = img_to_array[:,:,0],img_to_array[:,:,1],img_to_array[:,:,2]
         grey = 0.2989 * r + 0.5870 * g + 0.1140 * b
         return grey
 
