@@ -49,32 +49,11 @@ class brain:
 				self.wpl.append(w)
 			for k in range(1,len(neurons)):
 				b=np.random.random_sample((1,neurons[k]))
-				self.bpl.append(b)	
-	def backprop(self,x,y):
-		u_w=[np.zeros(w.shape) for w in self.wpl]
-		u_b=[np.zeros(b.shape) for b in self.bpl]
-		weight_sum_list,act_list=self._forward_pass(x,self.wpl,self.bpl)
-		return self._backward_pass(weight_sum_list,act_list,u_w,u_b)
-	def _forward_pass(self,in_,weights,biases):
-		weight_sum_list=[]
-		act_list=[]
-		for w,b in zip(weights,biases):
-			weight_sum=np.dot(in_,weights)+biases
-			weight_sum_list.append(weight_sum)
-			act_list.append(sigmoid(weight_sum))
-		return weight_sum_list,act_list
-	def _backward_pass(self,z_l,a_l,y,w_v,b_v):
-		d_L=LOSS.categorical_cross_entropy(a_l[-1],y,model="nn")*sigmoidDerivative(z_l[-1])
-		b_v[-1]=d_L
-		w_v[-1]=np.dot(d_L,a_l[-2].transpose())
-		for i in range(2,self.layers):
-			w=z_l[-i]
-			a=sigmoidDerivative(w)
-			d_L=np.dot(self.wpl[-i+1].transpose(),d_L)*a
-			b_v[-i]=d_L
-			w_v[-i]=np.dot(d_L,a_l[-i-1].transpose())
-		return b_v,w_v
-
+				self.bpl.append(b)
+	def train(self,optimizer="SGD",epoch=30):
+		self.opt=SGD(self.feat,self.target,epoch,self.e)
+		self.f_w,self.f_b=self.opt.optimize(self.wpl,self,bpl)	
+	
 					
 				
 		
