@@ -128,6 +128,45 @@ class Preprocess:
 				raise ValueError("FILE FORMAT NOT SUPPORTED")
 			else:formats[i]=j[0][-3:]
 			return True
+	def direc_to_array(self,path=None,reshape=True):
+		"""This function converts images present in the specified path to arrays.
+		
+
+		INPUT:
+		path   =    path to the directory of the images(if not given while creating an instance)
+		
+		OUTPUT:
+		
+		arr,tar   =    where	arr=features vector [instance of np.ndarray]
+					tar=Target vecor	[instance of np.ndarray] 		
+		EXAMPLE:
+			>>>path="path_to/image_dir/"
+			>>>i=Preprocess(root=path)
+			>>>feat,target  =  i.direc_to_array()
+				or 
+			>>>i=Preprocess()
+			>>>i.direc_to_array(path=path)
+			>>>feat,target  =  i.img_to_array()
+		"""
+		arr=[]
+		tar=[]
+		self.class_dict={}
+		if path: 
+			if not os.path.exists(path):
+				raise ValueError("Provided invalid path")
+			else:self.root_path=path
+		if self.checkformat(self.root_path):
+			class_list=sorted(os.listdir(self.root_path))	
+			for i in range(len(class_list)):
+				self.class_dict[i]=class_list[i]
+				new_path=os.path.join(self.root_path,class_list[i])
+				new_dir_list=os.listdir(new_path)
+				for j in range(len(new_dir_list)):
+					img=self.img_to_array(os.path.join(new_path,new_dir_list[j]),cond=reshape)
+					arr.append(img)
+				target=categorical(np.full([len(new_dir_list),],i),len(class_list))
+				tar.extend(target)
+		return np.asarray(arr),np.asarray(tar)
 
 	def img_to_array(self,path,cond=False):
 		"""This method converts single image to array
