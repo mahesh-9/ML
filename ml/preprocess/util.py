@@ -162,8 +162,9 @@ class Preprocess:
 				new_path=os.path.join(self.root_path,class_list[i])
 				new_dir_list=os.listdir(new_path)
 				for j in range(len(new_dir_list)):
-					img=self.img_to_array(os.path.join(new_path,new_dir_list[j]),cond=reshape)
-					arr.append(img)
+					img=self.rgb2grey(self.img_to_array(os.path.join(new_path,new_dir_list[j]),cond=reshape))
+					img_f= img.flatten()
+					arr.append(img_f)
 				target=categorical(np.full([len(new_dir_list),],i),len(class_list))
 				tar.extend(target)
 		return np.asarray(arr),np.asarray(tar)
