@@ -49,7 +49,7 @@ class SGD:
 		self.weights=weights_init
 		self.biases=biases_init
 		for i in range(self.epoch):
-			np.shuffle(self.train_data)
+			np.random.shuffle(self.train_data)
 			batches=self.make_batches(self.batch_size)
 			for i in batches:self._get_grads(i)
 		return self.weights,self.biases
