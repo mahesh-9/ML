@@ -10,7 +10,7 @@ class brain:
 		self.layers=[]
 		self.wpl=[]#weights per layer
 		self.bpl=[]
-	def fit(self,X,Y,layers=None,neurons=None,one_hot=True):
+	def fit(self,X,Y,layers=None,neurons=None,one_hot=False):
 		""" Fits the training data:
 		Parameters:
 			X=training features(array like object)
@@ -27,7 +27,7 @@ class brain:
 		if one_hot:
 			Y=one_hot_encoding(Y)
 			self.target=Y
-		self.target=Y
+		else:self.target=Y
 		if layers != None:
 			if neurons==None:
 				raise ValueError("Did not provide neurons to the hidden layers")
