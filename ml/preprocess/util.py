@@ -1,5 +1,5 @@
 import os
-#from scipy import misc
+from scipy import misc
 import numpy as np
 SUPPORTED_FORMATS=("png","jpg","PNG","JPG")
 IMG_SAVE_PATH = "~/Desktop/ML/results/"
@@ -152,13 +152,14 @@ class Preprocess:
 		if cond:return np.resize(misc.imread(path),[224,224,3])
 		else:return misc.imread(path)
 	
-	def rgb2grey(self,img):
-        """ INPUT : Array of rgb image
-            OUTPUT :Array of Greyscale image
-        """
-	r,g,b = img[:,:,0],img[:,:,1],img[:,:,2]
-        grey = 0.2989 * r + 0.5870 * g + 0.1140 * b
-        return grey
+	def rgb2grey(self,img):	
+	        """	
+			INPUT : Array of rgb image
+	 	   	OUTPUT :Array of Greyscale image
+		"""
+		r,g,b = img[:,:,0],img[:,:,1],img[:,:,2]
+		grey = 0.2989 * r + 0.5870 * g + 0.1140 * b
+		return grey
 
 
 
@@ -174,5 +175,21 @@ def sub_mean_ch(X):
 		i[:,:,2] -= 123.68
 		i = i.transpose((2,0,1))
 		temp_images.append(i)
-	return np.array(temp_images).astype(np.float32)	                
+	return np.array(temp_images).astype(np.float32)
+def categorical(target,no_classes):
+	"""
+		assigning binary vectors for each class
+		
+		INPUT:
+			target=target vector
+			no_class=number of classes
+	
+	"""
+	target=np.asarray(target,dtype="int32")
+	if not no_class:no_class=np.max(target)+1
+	T=np.zeros((len(target),no_classes))
+	T[np.arange(len(tagret)),target]=1
+	return T
+	
+	               
 				
