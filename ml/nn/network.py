@@ -53,6 +53,6 @@ class brain:
 				self.bpl.append(b)
 	def train(self,optimizer="SGD",epoch=30):
 		self.opt=SGD(self.feat,self.target,epoch,self.e)
-		self.f_w,self.f_b=self.opt.optimize(self.wpl,self,bpl)	
+		self.f_w,self.f_b=self.opt.optimize(self.wpl,self.bpl)	
 					
 
