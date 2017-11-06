@@ -79,7 +79,7 @@ class SGD:
 		u_w=[np.zeros(w.shape) for w in self.weights]
 		u_b=[np.zeros(b.shape) for b in self.biases]
 		weight_sum_list,act_list=self._forward_pass(x,self.weights,self.biases)
-		return self._backward_pass(weight_sum_list,act_list,u_w,u_b)
+		return self._backward_pass(weight_sum_list,act_list,y,u_w,u_b)
 	def _forward_pass(self,in_,weights,biases):
 		"""
 			performs forward pass
