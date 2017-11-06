@@ -225,7 +225,7 @@ def categorical(target,no_classes):
 	
 	"""
 	target=np.asarray(target,dtype="int32")
-	if not no_class:no_class=np.max(target)+1
+	if not no_classes:no_classes=np.max(target)+1
 	T=np.zeros((len(target),no_classes))
 	T[np.arange(len(tagret)),target]=1
 	return T
