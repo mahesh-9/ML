@@ -27,6 +27,7 @@ class brain:
 		if one_hot:
 			Y=one_hot_encoding(Y)
 			self.target=Y
+		self.target=Y
 		if layers != None:
 			if neurons==None:
 				raise ValueError("Did not provide neurons to the hidden layers")
