@@ -1,13 +1,13 @@
 #TODO add momentum
 import numpy as np
 from ..activation.util import sigmoid,sigmoidDerivative
-from ..losses import LOSS
+from ..losses import *
 class SGD:
 	"""
 	This class implements Sochastic Gradient Descent algorithm for optimizing neural nets
 		
 	"""
-	def __init__(self,X,Y,n_epoch,learning_rate=10e-4,shuffle=True,batch_size=15,back_bool=True):
+	def __init__(self,X,Y,n_epoch,layers,learning_rate=10e-4,shuffle=True,batch_size=15,back_bool=True):
 		"""
 			INPUT:
 				X	=	feature vector 
@@ -26,6 +26,7 @@ class SGD:
 		self.batch_size=batch_size
 		self.train_data=np.asarray(list(zip(self.feat,self.target)))
 		self.LD=len(self.train_data)
+		self.layers=layers
 	def make_batches(self,batch_size):
 		"""makes batches
 
@@ -33,8 +34,6 @@ class SGD:
 				batch_size	=	batch_size
 		"""
 		ite=0
-		#self.train_data=np.asarray(list(zip(self.ob.feat,self.ob.target)))
-		#LD=len(self.train_data)
 		w=lambda x:(x,x+batch_size) if (x+batch_size)<self.LD else (x,x+(self.LD-x))
 		q=lambda x:w(x) if x==0 else w(x[1])
 		size_index_list=[]
@@ -49,9 +48,12 @@ class SGD:
 		self.weights=weights_init
 		self.biases=biases_init
 		for i in range(self.epoch):
+			print("EPOCH:{0} completed metrics:")
 			np.random.shuffle(self.train_data)
 			batches=self.make_batches(self.batch_size)
-			for i in batches:self._get_grads(i)
+			for j in batches:
+				print("running batch ")
+				self._get_grads(j)
 		return self.weights,self.biases
 	def _get_grads(self,mini_batch):
 		"""
@@ -90,12 +92,18 @@ class SGD:
 				biases	=	bias vector
 			returns weighted sum list and activation list
 		"""
+		act=np.reshape(in_,(in_.shape[0],1))
 		weight_sum_list=[]
-		act_list=[]
+		act_list=[act]
 		for w,b in zip(weights,biases):
-			weight_sum=np.dot(in_,weights)+biases
+			weight_sum=np.dot(w,act)+b
+			#print("a")
+			#print(weight_sum.shape)
+			#print("b")
+			#print(w.shape,act.shape,b.shape)
 			weight_sum_list.append(weight_sum)
-			act_list.append(sigmoid(weight_sum))
+			act=sigmoid(weight_sum)
+			act_list.append(act)
 		return weight_sum_list,act_list
 	def _backward_pass(self,z_l,a_l,y,w_v,b_v):
 		"""
@@ -110,9 +118,10 @@ class SGD:
 		
 			returns derivative vector (bias and weights)
 		"""
-		d_L=LOSS.categorical_cross_entropy(a_l[-1],y,model="nn")*sigmoidDerivative(z_l[-1])
+		d_L=categorical_cross_entropy(a_l[-1],y,model="nn")*sigmoidDerivative(z_l[-1])
 		b_v[-1]=d_L
-		w_v[-1]=np.dot(d_L,a_l[-2].transpose())
+		#print(d_L.shape,a_l[-1].shape,a_l[-2].shape)
+		w_v[-1]=np.dot(d_L,a_l[-2].T)
 		for i in range(2,self.layers):
 			w=z_l[-i]
 			a=sigmoidDerivative(w)
