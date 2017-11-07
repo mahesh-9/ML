@@ -48,11 +48,11 @@ class SGD:
 		self.weights=weights_init
 		self.biases=biases_init
 		for i in range(self.epoch):
-			print("EPOCH:{0} completed metrics:")
+			print("\t\tEPOCH:{0} completed".format(i+1))
 			np.random.shuffle(self.train_data)
 			batches=self.make_batches(self.batch_size)
 			for j in batches:
-				print("running batch ")
+				print("running mini batch")
 				self._get_grads(j)
 		return self.weights,self.biases
 	def _get_grads(self,mini_batch):
