@@ -2,7 +2,7 @@ import numpy as np
 from math import log
 from ..activation.util import sigmoid,sigmoidDerivative
 from ..preprocess.util import *
-from ..losses import LOSS
+from ..losses import *
 from ..optimizers.SGD import *
 class brain:
 	def __init__(self,ep=10e-4):
@@ -24,6 +24,7 @@ class brain:
 		X,Y=checkfit(X,Y)
 		self.feat=X
 		self.m=len(X)
+		self.n_l=len(neurons)
 		if one_hot:
 			Y=one_hot_encoding(Y)
 			self.target=Y
@@ -46,13 +47,13 @@ class brain:
 			#for j in range(1,len(self.layers)):
 			#	w=np.random.random_sample((len(self.layers[j]),len(self.layers[j-1])+1))
 			for j in range(1,len(neurons)):
-				w=np.random.random_sample((neurons[j],neurons[j-1]+1))
+				w=np.random.random_sample((neurons[j],neurons[j-1]))
 				self.wpl.append(w)
 			for k in range(1,len(neurons)):
-				b=np.random.random_sample((1,neurons[k]))
+				b=np.random.random_sample((neurons[k],1))
 				self.bpl.append(b)
 	def train(self,optimizer="SGD",epoch=30):
-		self.opt=SGD(self.feat,self.target,epoch,self.e)
-		self.f_w,self.f_b=self.opt.optimize(np.asarray(self.wpl),np.asarray(self.bpl))	
-					
+		self.opt=SGD(self.feat,self.target,epoch,self.n_l,self.e)
+		self.f_w,self.f_b=self.opt.optimize(self.wpl,self.bpl)	
+		return self.f_w,self.f_b			
 
