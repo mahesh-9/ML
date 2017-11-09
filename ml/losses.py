@@ -45,8 +45,8 @@ def categorical_cross_entropy(feat,target,hyp="multiclass",model="nn"):
 	feat=feat
 	#self.no_train=len(self.feat)
 	#self.hyp=HYP[hyp]
-	r = np.dot(target,np.log(soft_max(feat)))
-	return r
+	r = np.sum(np.dot(target,np.log(soft_max(feat))))
+	return -r
 
 #@staticmethod
 def normal(X):
