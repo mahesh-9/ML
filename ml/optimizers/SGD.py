@@ -7,7 +7,7 @@ class SGD:
 	This class implements Sochastic Gradient Descent algorithm for optimizing neural nets
 		
 	"""
-	def __init__(self,X,Y,n_epoch,layers,learning_rate=10e-4,shuffle=True,batch_size=15,back_bool=True):
+	def __init__(self,X,Y,n_epoch,layers,learning_rate=10,shuffle=True,batch_size=15,back_bool=True):
 		"""
 			INPUT:
 				X	=	feature vector 
@@ -65,12 +65,15 @@ class SGD:
 		random_weights=[np.zeros(i.shape) for i in self.weights]
 		random_biases=[np.zeros(j.shape) for j in self.biases]
 		for f,t in mini_batch:
-			dr_b,dr_w=self.backprop(f,t)
+			weight_sum_list,act_list = self._forward_pass(f,self.weights,self.biases)
+			dr_b,dr_w = self._backward_pass(weight_sum_list,act_list,t,random_weights,random_biases)
+			#dr_b,dr_w = self.backprop(f,t)
 			random_weights=[i+j for i,j in zip(random_weights,dr_w)]
 			random_biases=[i+j for i,j in zip(random_biases,dr_b)]
+
 		self.weights=[i-(self.lr/len(mini_batch))*j for i,j in zip(self.weights,random_weights)]
 		self.biases=[i-(self.lr/len(mini_batch))*j for i,j in zip(self.biases,random_biases)]
-	def backprop(self,x,y):
+	#def backprop(self,x,y):
 		"""
 			performs backpropagation
 			
@@ -78,14 +81,16 @@ class SGD:
 				x	=	input feature vector
 				y	=	output target vector
 		"""
-		u_w=[np.zeros(w.shape) for w in self.weights]
-		u_b=[np.zeros(b.shape) for b in self.biases]
-		weight_sum_list,act_list=self._forward_pass(x,self.weights,self.biases)
-		return self._backward_pass(weight_sum_list,act_list,y,u_w,u_b)
+		#u_w=[np.zeros(w.shape) for w in self.weights]
+		#u_b=[np.zeros(b.shape) for b in self.biases]
+		#weight_sum_list,act_list=self._forward_pass(x,self.weights,self.biases)
+		#self.act = act_list
+		#print(categorical_cross_entropy(act_list[-1],y,model="nn"))
+		#return self._backward_pass(weight_sum_list,act_list,y,u_w,u_b)
 	def _forward_pass(self,in_,weights,biases):
 		"""
 			performs forward pass
-		
+		`
 			INPUT:
 				in_	=	input feature vector
 				weights	=	weight vector
@@ -103,6 +108,7 @@ class SGD:
 			#print(w.shape,act.shape,b.shape)
 			weight_sum_list.append(weight_sum)
 			act=sigmoid(weight_sum)
+			#print(act)
 			act_list.append(act)
 		return weight_sum_list,act_list
 	def _backward_pass(self,z_l,a_l,y,w_v,b_v):
@@ -118,7 +124,9 @@ class SGD:
 		
 			returns derivative vector (bias and weights)
 		"""
+		print(categorical_cross_entropy(a_l[-1],y))
 		d_L=categorical_cross_entropy(a_l[-1],y,model="nn")*sigmoidDerivative(z_l[-1])
+		#d_L = cost(a_l[-1],y)*sigmoidDerivative(z_l[-1])
 		b_v[-1]=d_L
 		#print(d_L.shape,a_l[-1].shape,a_l[-2].shape)
 		w_v[-1]=np.dot(d_L,a_l[-2].T)
@@ -129,6 +137,15 @@ class SGD:
 			b_v[-i]=d_L
 			w_v[-i]=np.dot(d_L,a_l[-i-1].transpose())
 		return b_v,w_v
+
+	def feed_forward(self,X,w,b):
+		A=X[0]
+		for w,b in zip(w,b):
+			Z = np.dot(w,A)+b
+			A = sigmoid(Z)
+		return A
+
+		
 
 					
 
