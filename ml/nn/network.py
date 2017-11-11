@@ -47,10 +47,10 @@ class brain:
 			#for j in range(1,len(self.layers)):
 			#	w=np.random.random_sample((len(self.layers[j]),len(self.layers[j-1])+1))
 			for j in range(1,len(neurons)):
-				w=np.random.random_sample((neurons[j],neurons[j-1]))
+				w=np.random.randn(neurons[j],neurons[j-1])
 				self.wpl.append(w)
 			for k in range(1,len(neurons)):
-				b=np.random.random_sample((neurons[k],1))
+				b=np.random.randn(neurons[k],1)
 				self.bpl.append(b)
 	def train(self,optimizer="SGD",epoch=30):
 		self.opt=SGD(self.feat,self.target,epoch,self.n_l,self.e)
