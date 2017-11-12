@@ -15,7 +15,7 @@ def sigmoidDerivative(X):
 	     output : Sigmoid derivative of the input  """
 
 	if isinstance(X,np.ndarray):
-		return sigmoid(X)*(1-sigmoid(X))
+		return stable_sigmoid(X)*(1-stable_sigmoid(X))
 	else:
 		X = np.array(X)
 		return sigmoidDerivative(X)
@@ -46,9 +46,28 @@ def reluDerivative(X,ep=1e-1):
 	grads= 1.0*(X>0)
 	grads[grads==0]=1e-1
 	return grads
+def stable_sigmoid(X):
+	if isinstance(X,(list,np.ndarray)):
+		res=[]
+		for i in X:
+			if i>=0:
+				z=exp(-i)
+				res.append(z)
+			else:
+				z=exp(i)
+				res.append(z/(1+z))
+		return np.asarray(res)
+	else:
+		if X>=0:
+				z=exp(-X)
+				return 1/(1+z)
+		else:
+				z=exp(X)
+				return z/(1+z)
+			
 		
 		
-"""for testing """	
-if __name__ == "__main__":
-	a = relu([-1,-2,0,1,3,4])
-	print(a)	
+#"""for testing """	
+#if __name__ == "__main__":
+#	a = relu([-1,-2,0,1,3,4])
+#	print(a)	
