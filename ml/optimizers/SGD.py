@@ -1,13 +1,13 @@
 #TODO add momentum
 import numpy as np
-from ..activation.util import sigmoid,sigmoidDerivative
+from ..activation.util import sigmoid,sigmoidDerivative,stable_sigmoid
 from ..losses import *
 class SGD:
 	"""
 	This class implements Sochastic Gradient Descent algorithm for optimizing neural nets
 		
 	"""
-	def __init__(self,X,Y,n_epoch,layers,learning_rate=10,shuffle=True,batch_size=15,back_bool=True):
+	def __init__(self,X,Y,n_epoch,layers,learning_rate=3,shuffle=True,batch_size=15,back_bool=True):
 		"""
 			INPUT:
 				X	=	feature vector 
@@ -102,13 +102,8 @@ class SGD:
 		act_list=[act]
 		for w,b in zip(weights,biases):
 			weight_sum=np.dot(w,act)+b
-			#print("a")
-			#print(weight_sum.shape)
-			#print("b")
-			#print(w.shape,act.shape,b.shape)
 			weight_sum_list.append(weight_sum)
-			act=sigmoid(weight_sum)
-			#print(act)
+			act=stable_sigmoid(weight_sum)
 			act_list.append(act)
 		return weight_sum_list,act_list
 	def _backward_pass(self,z_l,a_l,y,w_v,b_v):
@@ -124,9 +119,11 @@ class SGD:
 		
 			returns derivative vector (bias and weights)
 		"""
-		print(categorical_cross_entropy(a_l[-1],y))
-		d_L=categorical_cross_entropy(a_l[-1],y,model="nn")*sigmoidDerivative(z_l[-1])
-		#d_L = cost(a_l[-1],y)*sigmoidDerivative(z_l[-1])
+		#print(categorical_cross_entropy(a_l[-1],y))
+		error=cost(a_l[-1],y)
+		print("Error:",
+		#d_L=categorical_cross_entropy(a_l[-1],y,model="nn")*sigmoidDerivative(z_l[-1])
+		d_L = cost(a_l[-1],y)*sigmoidDerivative(z_l[-1])
 		b_v[-1]=d_L
 		#print(d_L.shape,a_l[-1].shape,a_l[-2].shape)
 		w_v[-1]=np.dot(d_L,a_l[-2].T)
@@ -144,6 +141,8 @@ class SGD:
 			Z = np.dot(w,A)+b
 			A = sigmoid(Z)
 		return A
+def cost(a,b):
+	return np.sum(b-a)
 
 		
 
