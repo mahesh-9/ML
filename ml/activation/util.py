@@ -2,28 +2,12 @@ from math import exp
 import numpy as np
 def sigmoid(X):
 	"""an activation function which outputs the value between (0,1)"""
-	
-	#if isinstance(X,np.ndarray):
-	result=[]
-	#for i in X:
-	
-#	res=1.0/(1.0+np.exp(-i))
-
-#		result.append(res)
-	#return np.asarray(result)
-	#else:	
-		#X=np.array(X)
-		#return sigmoid(X)
 	return 1.0/(1.0+np.exp(-X))
 def sigmoidDerivative(X):
 	"""  input : array of features
 	     output : Sigmoid derivative of the input  """
 
-	#if isinstance(X,np.ndarray):
-	return stable_sigmoid(X)*(1-stable_sigmoid(X))
-	#else:
-	#	X = np.array(X)
-	#	return sigmoidDerivative(X)
+	return stable_sigmoid(X) * (1.0 - stable_sigmoid(X))
 
 def tanh(X):
 	"""an activation function which outputs the value between (-1,1)"""
@@ -60,14 +44,14 @@ def stable_sigmoid(X):
 				res.append(z)
 			else:
 				z=exp(i)
-				res.append(z/(1+z))
+				res.append(z/(1.0+z))
 		return np.asarray(res)
 	else:
 		if X>=0:
 				z=exp(-X)
-				return 1/(1+z)
+				return 1.0/(1.0+z)
 		else:
 				z=exp(X)
-				return z/(1+z)
+				return z/(1.0+z)
 			
 					
