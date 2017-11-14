@@ -128,7 +128,7 @@ class Preprocess:
 				raise ValueError("FILE FORMAT NOT SUPPORTED")
 			else:formats[i]=j[0][-3:]
 			return True
-	def direc_to_array(self,path=None,reshape=True):
+	def direc_to_array(self,path=None,reshape=True,grey_scale=True):
 		"""This function converts images present in the specified path to arrays.
 		
 
@@ -162,9 +162,11 @@ class Preprocess:
 				new_path=os.path.join(self.root_path,class_list[i])
 				new_dir_list=os.listdir(new_path)
 				for j in range(len(new_dir_list)):
-					img=self.rgb2grey(self.img_to_array(os.path.join(new_path,new_dir_list[j]),cond=reshape))
-					img_f= img.flatten()
-					arr.append(img_f)
+					img=self.img_to_array(os.path.join(new_path,new_dir_list[j]),cond=True)
+					if grey_scale:
+						img=self.rgb2grey(img).flatten()
+						arr.append(img)
+					else:arr.append(img)
 				target=categorical(np.full([len(new_dir_list),],i),len(class_list))
 				tar.extend(target)
 		return np.asarray(arr),np.asarray(tar)
@@ -189,7 +191,7 @@ class Preprocess:
 		
 		if not os.path.exists(path):
 				raise ValueError("Provided invalid path")
-		if cond:return np.resize(misc.imread(path),[224,224,3])
+		if cond:return np.resize(misc.imread(path),[28,28,3])
 		else:return misc.imread(path)
 	
 	def rgb2grey(self,img):
