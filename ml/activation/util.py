@@ -53,5 +53,3 @@ def stable_sigmoid(X):
 		else:
 				z=exp(X)
 				return z/(1.0+z)
-			
-					

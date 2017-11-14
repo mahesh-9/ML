@@ -48,7 +48,7 @@ class brain:
 				w=np.random.rand(neurons[j],neurons[j-1])
 				self.wpl.append(w)
 			for k in range(1,len(neurons)):
-				b=np.random.rand(neurons[k])
+				b=np.random.randn(neurons[k])
 				self.bpl.append(b)
 	def train(self,optimizer="SGD",epoch=100):
 		self.opt=SGD(self.feat,self.target,epoch,self.n_l,self.e)
