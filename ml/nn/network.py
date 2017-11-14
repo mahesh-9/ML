@@ -1,11 +1,11 @@
 import numpy as np
 from math import log
-from ..activation.util import sigmoid,sigmoidDerivative
+from ..activation.util import sigmoid,sigmoidDerivative,stable_sigmoid
 from ..preprocess.util import *
 from ..losses import *
 from ..optimizers.SGD import *
 class brain:
-	def __init__(self,ep=10e-4):
+	def __init__(self,ep=10e-1):
 		self.e=ep
 		self.layers=[]
 		self.wpl=[]#weights per layer
@@ -44,16 +44,13 @@ class brain:
 				if i==self.totl-1:
 					out_l=np.full([len(list(self.class_set)),],0.0)
 					self.layers.append(out_l)
-			#for j in range(1,len(self.layers)):
-			#	w=np.random.random_sample((len(self.layers[j]),len(self.layers[j-1])+1))
 			for j in range(1,len(neurons)):
-				w=np.random.random_sample((neurons[j],neurons[j-1]))
+				w=np.random.rand(neurons[j],neurons[j-1])
 				self.wpl.append(w)
 			for k in range(1,len(neurons)):
-				b=np.random.random_sample((neurons[k],1))
+				b=np.random.rand(neurons[k])
 				self.bpl.append(b)
-	def train(self,optimizer="SGD",epoch=30):
+	def train(self,optimizer="SGD",epoch=100):
 		self.opt=SGD(self.feat,self.target,epoch,self.n_l,self.e)
 		self.f_w,self.f_b=self.opt.optimize(self.wpl,self.bpl)	
 		return self.f_w,self.f_b			
-
