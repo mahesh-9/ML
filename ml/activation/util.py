@@ -53,3 +53,7 @@ def stable_sigmoid(X):
 		else:
 				z=exp(X)
 				return z/(1.0+z)
+def stable_softmax(X):
+	y = X - np.max(X)
+	exp = np.exp(y)
+	return exp/np.sum(exp)
