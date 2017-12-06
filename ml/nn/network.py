@@ -8,7 +8,7 @@ class brain:
 	def __init__(self,ep=10e-1):
 		self.e=ep
 		self.layers=[]
-		self.wpl=[]#weights per layer
+		self.wpl=[]
 		self.bpl=[]
 	def fit(self,X,Y,layers=None,neurons=None,one_hot=False):
 		""" Fits the training data:
@@ -36,14 +36,6 @@ class brain:
 				raise ValueError("parameter neurons should be of class list but given %s"%(type(neurons)))
 			if not isinstance(layers,int):
 				raise ValueError(" parameter layers should be of class int but given %s"%(type(layers))) 
-			self.totl=layers
-			self.layers.append(X)   
-			for i in range(self.totl):
-				l=np.full([neurons[i],],0.0)
-				self.layers.append(l)
-				if i==self.totl-1:
-					out_l=np.full([len(list(self.class_set)),],0.0)
-					self.layers.append(out_l)
 			for j in range(1,len(neurons)):
 				w=np.random.rand(neurons[j],neurons[j-1])
 				self.wpl.append(w)
