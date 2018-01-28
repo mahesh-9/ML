@@ -1,4 +1,4 @@
-#TODO add momentum
+
 import numpy as np
 from ..activation.util import sigmoid,sigmoidDerivative,relu,reluDerivative,stable_sigmoid
 from ..losses import *
@@ -106,8 +106,8 @@ class SGD:
 		er=cost(a_l[-1],y)
 		d_L=cost(a_l[-1],y)*sigmoidDerivative(z_l[-1])
 		print("Error:",er)
-		#d_L=categorical_cross_entropy(a_l[-1],y,model="nn")*sigmoidDerivative(z_l[-1])
-		d_L = cost(a_l[-1],y)*sigmoidDerivative(z_l[-1])
+		d_L=categorical_cross_entropy(a_l[-1],y,model="nn")*sigmoidDerivative(z_l[-1])
+		#d_L = cost(a_l[-1],y)*sigmoidDerivative(z_l[-1])
 		b_v[-1]=d_L
 		temp1=np.reshape(d_L,(d_L.shape[0],1))
 		temp2=np.reshape(a_l[-2],(1,a_l[-2].shape[0]))
