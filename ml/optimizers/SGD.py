@@ -8,7 +8,7 @@ class SGD:
 		
 	"""
 
-	def __init__(self,X,Y,n_epoch,layers,learning_rate=3,shuffle=True,batch_size=15,back_bool=True):
+	def __init__(self,X,Y,n_epoch,layers,cost,learning_rate=3,shuffle=True,batch_size=15,back_bool=True):
 		"""
 			INPUT:
 				X	=	feature vector 
@@ -28,6 +28,7 @@ class SGD:
 		self.train_data=np.asarray(list(zip(self.feat,self.target)))
 		self.LD=len(self.train_data)
 		self.layers=layers
+		self.cost=cost
 	def make_batches(self,batch_size):
 		"""makes batches
 
@@ -103,8 +104,8 @@ class SGD:
 		
 			returns derivative vector (bias and weights)
 		"""
-		er=cost(a_l[-1],y)
-		d_L=cost(a_l[-1],y)*sigmoidDerivative(z_l[-1])
+		er=self.cost(a_l[-1],y)
+		d_L=self.cost(a_l[-1],y)*sigmoidDerivative(z_l[-1])
 		print("Error:",er)
 		d_L=categorical_cross_entropy(a_l[-1],y,model="nn")*sigmoidDerivative(z_l[-1])
 		#d_L = cost(a_l[-1],y)*sigmoidDerivative(z_l[-1])
@@ -122,8 +123,7 @@ class SGD:
 			w_v[-i]=np.dot(temp1,temp2)
 		return b_v,w_v
 
-def cost(a,b):
-	return -(np.sum(b-a))
+
 
 					
 									
