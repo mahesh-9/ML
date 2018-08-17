@@ -1,7 +1,6 @@
 import sys
 import time
 def a(n):
-	s=""
 	r=chr(n)*1
 	for j in range(5):
 		s=""
@@ -15,5 +14,4 @@ def a(n):
 if __name__=="__main__":
 	#a(128187)
 	a(9209)
-	sys.stdout.write("\n")
 		
