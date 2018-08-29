@@ -50,7 +50,7 @@ def stable_sigmoid(X):
 	if isinstance(X,(list,np.ndarray)):
 		res=[]
 		for i in X:
-			if i>=0:
+			if i>0:
 				z=exp(-i)
 				res.append(z)
 			else:

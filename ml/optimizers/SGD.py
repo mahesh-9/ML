@@ -62,6 +62,7 @@ class SGD:
 			INPUT:
 				mini_batch	=	batch of training data
 		"""
+		print("enter get grads")
 		random_weights=[np.zeros(i.shape) for i in self.weights]
 		random_biases=[np.zeros(j.shape) for j in self.biases]
 		for f,t in mini_batch:
@@ -97,13 +98,16 @@ class SGD:
 				biases	=	bias vector
 			returns weighted sum list and activation list
 		"""
+		print("enter forward")
 		act=np.reshape(in_,(in_.shape[0],1))
 		weight_sum_list=[]
 		act_list=[act]
 		for w,b in zip(weights,biases):
 			weight_sum=np.dot(w,act)+b
+			print(weight_sum,weight_sum.shape)
 			weight_sum_list.append(weight_sum)
 			act=stable_sigmoid(weight_sum)
+			#act=relu(weight_sum)
 			act_list.append(act)
 		return weight_sum_list,act_list
 	def _backward_pass(self,z_l,a_l,y,w_v,b_v):
@@ -119,9 +123,10 @@ class SGD:
 		
 			returns derivative vector (bias and weights)
 		"""
+		print("enter backward")
 		#print(categorical_cross_entropy(a_l[-1],y))
 		error=cost(a_l[-1],y)
-		print("Error:",
+		print("Error:"),
 		#d_L=categorical_cross_entropy(a_l[-1],y,model="nn")*sigmoidDerivative(z_l[-1])
 		d_L = cost(a_l[-1],y)*sigmoidDerivative(z_l[-1])
 		b_v[-1]=d_L

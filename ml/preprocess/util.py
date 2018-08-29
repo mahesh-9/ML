@@ -189,7 +189,7 @@ class Preprocess:
 		
 		if not os.path.exists(path):
 				raise ValueError("Provided invalid path")
-		if cond:return np.resize(misc.imread(path),[224,224,3])
+		if cond:return np.resize(misc.imread(path),[28,28,3])
 		else:return misc.imread(path)
 	
 	def rgb2grey(self,img):
