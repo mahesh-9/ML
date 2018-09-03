@@ -1,4 +1,4 @@
-from layer import layer
+from .layer import layer
 #from optimizers.SGD import *
 class Graph():
 	def __init__(self):
@@ -17,4 +17,9 @@ class Graph():
 		for i in self.history:
 			print(i.__class__.__name__,"\tunits:%d\tactivation:%s\n"%(i.get_units,i.get_activation.__name__))
 	def train(self,X,Y,lr=1e-3,epochs=None):pass
-	
+	def _flow(self,X):
+		pred=X
+		for i in self.history:
+			pred=i(pred)
+		return pred
+
