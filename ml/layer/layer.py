@@ -1,12 +1,12 @@
 import numpy as np
-from activation import activations 
+from ..activation import activations 
 
 class Layer:
 	def __init__(self,units=None,activation=None):
 		self.units=units
 		try:
 			self.activation=activations.__dict__[activation]
-		except :raise("no such activation function")
+		except :raise ValueError("no such activation function")
 	@property
 	def get_weights(self):
 		return self.weights
@@ -18,19 +18,24 @@ class Layer:
 		
 	def set_weights(self,prev_l_u=1):
 		self.weights=np.random.rand(self.units,prev_l_u)
-	def feed_forward(self,X):
+	def _feed_forward(self,X):
 		self.layer_activations=X
 	@property
 	def get_activations(self):
 		return (self.weighted_sum,self.layer_activations)
+		#return self.layer_activations
+	def __call__(self,X):
+		self._feed_forward(X)
+		return self.layer_activations
 class DNN(Layer):
 	def __init__(self,units=None,activation=None):
 		Layer.__init__(self,units=units,activation=activation)
-		#self.weights=self.set_weights
-	def feed_forward(self,X):
-		self.weighted_sum=np.asarray(np.matmul(X,self.weights))
+	def _feed_forward(self,X):
+		self.weighted_sum=np.asarray(np.dot(self.weights,X))
 		self.layer_activations=np.asarray(self.activation(self.weighted_sum))
+	def _backprop(self):
+		
 class Input(Layer):
-	def __init__(self,units=None,activation='plain'):
-		Layer.__init__(self,units=units,activation=activation)
+	def __init__(self,units=None):
+		Layer.__init__(self,units=units,activation="identity")
 		
