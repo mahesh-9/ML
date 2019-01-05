@@ -1,8 +1,11 @@
 from math import exp
 import numpy as np
-def sigmoid(X):
+def sigmoid(X,prime=False):
 	"""an activation function which outputs the value between (0,1)"""
-	return 1.0/(1.0+np.exp(-X))
+	if prime:
+		return sigmoid(X) * (1.0 - sigmoid(X))
+	else:	
+		return 1.0/(1.0+np.exp(-X))
 def sigmoidDerivative(X):
 	"""  input : array of features
 	     output : Sigmoid derivative of the input  """
@@ -23,7 +26,12 @@ def softmax(X):
 		_X[i]=exp(X[i])/(np.sum(np.exp(X),axis=0))
 	return _X
 
-def relu(X):
+def relu(X,prime=False):
+	if prime:
+		X = np.array(X)
+		grads= 1.0*(X>0)
+		grads[grads==0]=1e-1
+		return grads
 	if isinstance(X,np.ndarray):
 		return np.maximum(X,0)
 	else:
@@ -35,10 +43,13 @@ def reluDerivative(X,ep=1e-1):
 	grads= 1.0*(X>0)
 	grads[grads==0]=1e-1
 	return grads
-def stable_sigmoid(X):
+def stable_sigmoid(X,prime=False):
+	if prime:
+		return stable_sigmoid(X) * (1.0 - stable_sigmoid(X))	
 	if isinstance(X,(list,np.ndarray)):
 		res=[]
 		for i in X:
+			#for now remove the condition
 			if i>=0:
 				z=exp(-i)
 				res.append(z)
@@ -57,3 +68,4 @@ def stable_softmax(X):
 	y = X - np.max(X)
 	exp = np.exp(y)
 	return exp/np.sum(exp)
+def identity():pass

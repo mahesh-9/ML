@@ -1,5 +1,6 @@
 from .layer import layer
-#from optimizers.SGD import *
+from .optimizers import optimizer
+from ml import losses	
 class Graph():
 	def __init__(self):
 		self.history=[]
@@ -16,8 +17,19 @@ class Graph():
 		print("\t\tNetwork Graph:\n")
 		for i in self.history:
 			print(i.__class__.__name__,"\tunits:%d\tactivation:%s\n"%(i.get_units,i.get_activation.__name__))
-	def train(self,X,Y,lr=1e-3,epochs=None):pass
-	def _flow(self,X):
+	def train(self,X=None,Y=None,lr=1e-3,epochs=10):
+		X.resize([X.shape[0],X.shape[1],1])
+		print("training_shape:",X.shape)
+		Graph.opt=optimizer.Optimizer(X=X,Y=Y)
+		self.opt
+		Graph.__dict__["opt"].optimize()
+	def net_flow(self,x,y):
+		out=x
+		for i in self.histoy[1:]:out=i(out)
+		return out
+	def next_layer(self,l):return self.history[self.history.index(l)+1]
+	def prev_layer(self,l):return self.history[self.history.index(l)-1]
+	def predict(self,X):
 		pred=X
 		for i in self.history:
 			pred=i(pred)

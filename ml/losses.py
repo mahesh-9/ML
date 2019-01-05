@@ -40,8 +40,6 @@ def cross_entropy(self,targets,features,hyp="binary_class"):
 
 	#@staticmethod
 def categorical_cross_entropy(feat,target,hyp="multiclass",model="nn"):
-	target=target
-	feat=feat
 	r = np.sum(np.dot(target,np.log(sigmoid(feat))))
 	return -r
 
@@ -56,9 +54,9 @@ def cost(AL,Y):
 	AL -- label predictions vector
 	Y -- true "label" vector (feat)
 	"""
-	m = Y.shape[1]
-	cost = (-1/m)*np.sum(Y*np.log(AL)+(1-Y)*np.log(1-AL))
-	return cost			
+	m = Y.shape[0]
+	res=np.sum(AL-Y)
+	return res		
 			
 			
 		
