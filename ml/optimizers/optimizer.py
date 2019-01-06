@@ -34,16 +34,21 @@ class Optimizer:
 			print("\t\t\t\trunning epoch:%d"%(i+1))
 			for i in self.batches:self.update_on_batch(i,batch_size=self.batch_size)
 	def update_on_batch(self,batch,batch_size=16):
+	"""
+		updates on batch
+	"""
 		trainable_layers=self.graph_layers[1:]
 		batch_grads_w=[np.zeros(i.get_weights.shape) for i in trainable_layers]
 		for ex in batch:
 			self.count+=1
 			single_grads,loss=self.update_on_single_example(ex[0],ex[1])
 			batch_grads=[a+b for a,b in zip(batch_grads_w,single_grads)]
-			#print("loss for batch %d:%d"%(self.count,loss))
 		for i in range(len(trainable_layers)):
 			trainable_layers[i].weights-=(self.lr/batch_size)*batch_grads[i]
 	def update_on_single_example(self,X,Y):
+	"""
+		the parameters get updates on single training example
+	"""
 		gradient_updates=[]
 		costs_per_layer=[]
 		pred=X
@@ -56,15 +61,7 @@ class Optimizer:
 		for i in range(len(rev)):
 				if not costs_per_layer:
 					loss=(network_loss)*(rev[i].get_activation(rev[i].get_weighted_sum,prime=True))
-					try:
-						grad=np.dot(loss,self.graph_i.prev_layer(rev[i]).get_activations.T)
-					except:
-						print("entered xcept")
-						loss=np.reshape(loss,(loss.shape[0],1))
-						act=self.graph_i.prev_layer(rev[i]).get_activations
-						act=np.reshape(act,(act.shape[0],1))
-						grad=np.dot(loss,act.T)
-						loss=np.reshape(loss,(loss.shape[0],))
+					grad=np.dot(loss,self.graph_i.prev_layer(rev[i]).get_activations.T)
 					gradient_updates.append(grad)
 					rev[i].loss=loss
 					costs_per_layer.append(loss)	
