@@ -1,5 +1,6 @@
 import numpy as np
 from ml import losses
+from ml import loading
 from ml.activation import activations
 from ml.layer import layer
 class Optimizer:
@@ -32,11 +33,10 @@ class Optimizer:
 		self.loss=losses.cost
 		for i in range(self.epochs):
 			print("\t\t\t\trunning epoch:%d"%(i+1))
+			loading.a(9209)
 			for i in self.batches:self.update_on_batch(i,batch_size=self.batch_size)
 	def update_on_batch(self,batch,batch_size=16):
-	"""
-		updates on batch
-	"""
+
 		trainable_layers=self.graph_layers[1:]
 		batch_grads_w=[np.zeros(i.get_weights.shape) for i in trainable_layers]
 		for ex in batch:
@@ -46,9 +46,6 @@ class Optimizer:
 		for i in range(len(trainable_layers)):
 			trainable_layers[i].weights-=(self.lr/batch_size)*batch_grads[i]
 	def update_on_single_example(self,X,Y):
-	"""
-		the parameters get updates on single training example
-	"""
 		gradient_updates=[]
 		costs_per_layer=[]
 		pred=X
