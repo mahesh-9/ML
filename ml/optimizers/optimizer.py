@@ -36,17 +36,20 @@ class Optimizer:
 			loading.a(9209)
 			for i in self.batches:self.update_on_batch(i,batch_size=self.batch_size)
 	def update_on_batch(self,batch,batch_size=16):
-
 		trainable_layers=self.graph_layers[1:]
 		batch_grads_w=[np.zeros(i.get_weights.shape) for i in trainable_layers]
+		batch_grads_b=[np.zeros(i.get_biases.shape) for i in trainable_layers]
 		for ex in batch:
 			self.count+=1
-			single_grads,loss=self.update_on_single_example(ex[0],ex[1])
-			batch_grads=[a+b for a,b in zip(batch_grads_w,single_grads)]
+			single_grads,cpl,loss=self.update_on_single_example(ex[0],ex[1])
+			batch_grads_w=[a+b for a,b in zip(batch_grads_w,single_grads)]
+			batch_grads_b=[a+b for a,b in zip(batch_grads_w,cpl)]
 		for i in range(len(trainable_layers)):
-			trainable_layers[i].weights-=(self.lr/batch_size)*batch_grads[i]
+			trainable_layers[i].weights-=(self.lr/batch_size)*batch_grads_w[i]
+			trainable_layers[i].biases-=(self.lr/batch_size)*batch_grads_b
 	def update_on_single_example(self,X,Y):
-		gradient_updates=[]
+		gradient_updates_w=[]
+		gradient_updates_b=[]
 		costs_per_layer=[]
 		pred=X
 		trainable_layers=self.graph_layers[1:]
@@ -59,19 +62,22 @@ class Optimizer:
 				if not costs_per_layer:
 					loss=(network_loss)*(rev[i].get_activation(rev[i].get_weighted_sum,prime=True))
 					grad=np.dot(loss,self.graph_i.prev_layer(rev[i]).get_activations.T)
-					gradient_updates.append(grad)
+					gradient_updates_w.append(grad)
+					gradient_updates_b.append(loss)
 					rev[i].loss=loss
 					costs_per_layer.append(loss)	
 				else:
 					res=np.dot(self.graph_i.next_layer(rev[i]).get_weights.T,self.graph_i.next_layer(rev[i]).loss)
 					loss=np.dot(self.graph_i.next_layer(rev[i]).get_weights.T,self.graph_i.next_layer(rev[i]).loss)*(rev[i].get_activation(rev[i].get_weighted_sum,prime=True))
+					costs_per_layer.append(loss)
 					rev[i].loss=loss
+					gradient_updates_b.append(loss)
 					if isinstance(self.graph_i.prev_layer(rev[i]),layer.Input):
 						grad=grad=np.dot(loss,X.T)
 					else:
 						grad=np.dot(loss,self.graph_i.prev_layer(rev[i]).get_activations.T)
-					gradient_updates.append(grad)
-		return  reversed(gradient_updates),network_loss
+					gradient_updates_w.append(grad)
+		return  reversed(gradient_updates_w),reversed(costs_per_layer),network_loss
 	def __get__(self,g_inst,o):
 		self.graph_i=g_inst
 		if not g_inst==None:

@@ -7,9 +7,10 @@ path="./ml/dataset/train/"
 i=Preprocess(path)
 X,Y=i.direc_to_array()
 X=normalize(X)
+print("training on %d examples"%(len(X)))
 p=Graph()
 p.add(Input(784))
 p.add(DNN(1024,activation="relu"))
 p.add(DNN(10,activation="relu"))
 p.get_graph
-p.train(X=X,Y=Y)
+p.train(X=X,Y=Y,lr=0.1,epochs=30)

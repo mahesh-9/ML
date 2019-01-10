@@ -23,10 +23,6 @@ class Graph():
 		Graph.opt=optimizer.Optimizer(X=X,Y=Y)
 		self.opt
 		Graph.__dict__["opt"].optimize()
-	def net_flow(self,x,y):
-		out=x
-		for i in self.histoy[1:]:out=i(out)
-		return out
 	def next_layer(self,l):return self.history[self.history.index(l)+1]
 	def prev_layer(self,l):return self.history[self.history.index(l)-1]
 	def predict(self,X):

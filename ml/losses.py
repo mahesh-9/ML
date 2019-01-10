@@ -1,7 +1,7 @@
 #TODO Not completed yet. 
 import numpy as np
 from math import log,e,exp
-from ml.activation.util import softmax,sigmoid
+from ml.activation.activations import softmax,sigmoid
 #class LOSS:
 
 def sigmoidal(X):
