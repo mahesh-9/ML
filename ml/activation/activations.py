@@ -1,4 +1,5 @@
-from math import exp
+#from math import exp
+from ..test_shape import wrapper
 import numpy as np
 def sigmoid(X,prime=False):
 	"""an activation function which outputs the value between (0,1)"""
@@ -25,7 +26,6 @@ def softmax(X):
 	for i in range(len(X)):
 		_X[i]=exp(X[i])/(np.sum(np.exp(X),axis=0))
 	return _X
-
 def relu(X,prime=False):
 	if prime:
 		X = np.array(X)

@@ -54,8 +54,8 @@ def cost(AL,Y):
 	AL -- label predictions vector
 	Y -- true "label" vector (feat)
 	"""
-	m = Y.shape[0]
 	res=np.sum(AL-Y)
+	#return AL-Y
 	return res		
 			
 			

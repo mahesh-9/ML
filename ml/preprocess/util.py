@@ -23,6 +23,8 @@ def one_hot_encoding(y):
 	for i in range(len(y)):
 		temp[i][y[i]]=1
 	return temp
+def Flatten(X):
+	return np.resize(X,[X.shape[0],X.shape[1],1])
 def normalize(X):
 	"""	This function normalizes the feature values:
 		new_x=(x-min(x))/(max(x)-min(x))"""

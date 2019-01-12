@@ -23,12 +23,12 @@ class Layer:
 		
 	def set_weights(self,prev_l_u=1):
 		self.weights=np.random.rand(self.units,prev_l_u)
+		#self.weights.dtype="float32"
 		self.biases=np.random.rand(self.units,1)
 	def _feed_forward(self,X):
 		self.layer_activations=X
 	@property
 	def get_activations(self):
-		#return (self.weighted_sum,self.layer_activations)
 		return self.layer_activations
 	def __call__(self,X):
 		self._feed_forward(X)
@@ -42,9 +42,6 @@ class DNN(Layer):
 	def __init__(self,units=None,activation=None):
 		Layer.__init__(self,units=units,activation=activation)
 	def _feed_forward(self,X):
-		#does not work for stable softmax
-		#self.weighted_sum=np.dot(self.weights,X) 
-		#changed from +self.biases to +self.biases.T
 		self.weighted_sum=np.dot(self.weights,X)+self.biases
 		self.layer_activations=np.asarray(self.activation(self.weighted_sum))
 	def _backprop(self):pass

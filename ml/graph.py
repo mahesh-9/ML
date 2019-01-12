@@ -1,8 +1,11 @@
 from .layer import layer
+from .preprocess.util import Flatten
 from .optimizers import optimizer
-from ml import losses	
+from ml import losses
+import numpy as np	
 class Graph():
-	def __init__(self):
+	def __init__(self,flatten=True):
+		self.in_flag=flatten
 		self.history=[]
 	def add(self,ly):
 		if not isinstance(ly,layer.Layer):
@@ -18,16 +21,22 @@ class Graph():
 		for i in self.history:
 			print(i.__class__.__name__,"\tunits:%d\tactivation:%s\n"%(i.get_units,i.get_activation.__name__))
 	def train(self,X=None,Y=None,lr=1e-3,epochs=10):
-		X.resize([X.shape[0],X.shape[1],1])
+		if self.in_flag:
+			X=Flatten(X)
 		print("training_shape:",X.shape)
-		Graph.opt=optimizer.Optimizer(X=X,Y=Y)
+		Graph.opt=optimizer.Optimizer(X=X,Y=Y,lr_rate=lr,epochs=epochs)
 		self.opt
 		Graph.__dict__["opt"].optimize()
 	def next_layer(self,l):return self.history[self.history.index(l)+1]
 	def prev_layer(self,l):return self.history[self.history.index(l)-1]
 	def predict(self,X):
-		pred=X
-		for i in self.history:
-			pred=i(pred)
-		return pred
+		class_vect=[]
+		for j in X:	
+			pred=j
+			for i in self.history:
+					pred=i(pred)
+			class_vect.append(np.argmax(pred))
+		return class_vect
+		
+		
 

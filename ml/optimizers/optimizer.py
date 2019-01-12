@@ -1,6 +1,6 @@
 import numpy as np
 from ml import losses
-from ml import loading
+from ml import epoch_an
 from ml.activation import activations
 from ml.layer import layer
 class Optimizer:
@@ -33,7 +33,7 @@ class Optimizer:
 		self.loss=losses.cost
 		for i in range(self.epochs):
 			print("\t\t\t\trunning epoch:%d"%(i+1))
-			loading.a(9209)
+			#epoch_an.a(9209)
 			for i in self.batches:self.update_on_batch(i,batch_size=self.batch_size)
 	def update_on_batch(self,batch,batch_size=16):
 		trainable_layers=self.graph_layers[1:]
@@ -43,10 +43,10 @@ class Optimizer:
 			self.count+=1
 			single_grads,cpl,loss=self.update_on_single_example(ex[0],ex[1])
 			batch_grads_w=[a+b for a,b in zip(batch_grads_w,single_grads)]
-			batch_grads_b=[a+b for a,b in zip(batch_grads_w,cpl)]
+			batch_grads_b=[a+b for a,b in zip(batch_grads_b,cpl)]
 		for i in range(len(trainable_layers)):
 			trainable_layers[i].weights-=(self.lr/batch_size)*batch_grads_w[i]
-			trainable_layers[i].biases-=(self.lr/batch_size)*batch_grads_b
+			trainable_layers[i].biases-=(self.lr/batch_size)*batch_grads_b[i]
 	def update_on_single_example(self,X,Y):
 		gradient_updates_w=[]
 		gradient_updates_b=[]
@@ -78,6 +78,11 @@ class Optimizer:
 						grad=np.dot(loss,self.graph_i.prev_layer(rev[i]).get_activations.T)
 					gradient_updates_w.append(grad)
 		return  reversed(gradient_updates_w),reversed(costs_per_layer),network_loss
+
+
+
+
+
 	def __get__(self,g_inst,o):
 		self.graph_i=g_inst
 		if not g_inst==None:
