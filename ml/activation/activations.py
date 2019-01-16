@@ -49,12 +49,8 @@ def stable_sigmoid(X,prime=False):
 	if isinstance(X,(list,np.ndarray)):
 		res=[]
 		for i in X:
-<<<<<<< HEAD:ml/activation/util.py
-			if i>0:
-=======
 			#for now remove the condition
 			if i>=0:
->>>>>>> 81370b43bc1510cb29b08fb5441bcfaaae2bde81:ml/activation/activations.py
 				z=exp(-i)
 				res.append(z)
 			else:

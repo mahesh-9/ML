@@ -83,21 +83,11 @@ class SGD:
 				biases	=	bias vector
 			returns weighted sum list and activation list
 		"""
-<<<<<<< HEAD
-		print("enter forward")
-		act=np.reshape(in_,(in_.shape[0],1))
-		weight_sum_list=[]
-		act_list=[act]
-		for w,b in zip(weights,biases):
-			weight_sum=np.dot(w,act)+b
-			print(weight_sum,weight_sum.shape)
-=======
 		act=in_
 		weight_sum_list=[]
 		act_list=[in_]
 		for w,b in zip(self.weights,self.biases):
 			weight_sum=np.matmul(w,act)+b
->>>>>>> 81370b43bc1510cb29b08fb5441bcfaaae2bde81
 			weight_sum_list.append(weight_sum)
 			act=stable_sigmoid(weight_sum)
 			#act=relu(weight_sum)
@@ -116,20 +106,11 @@ class SGD:
 		
 			returns derivative vector (bias and weights)
 		"""
-<<<<<<< HEAD
-		print("enter backward")
-		#print(categorical_cross_entropy(a_l[-1],y))
-		error=cost(a_l[-1],y)
-		print("Error:"),
-		#d_L=categorical_cross_entropy(a_l[-1],y,model="nn")*sigmoidDerivative(z_l[-1])
-		d_L = cost(a_l[-1],y)*sigmoidDerivative(z_l[-1])
-=======
 		er=self.cost(a_l[-1],y)
 		d_L=self.cost(a_l[-1],y)*sigmoidDerivative(z_l[-1])
 		print("Error:",er)
 		d_L=categorical_cross_entropy(a_l[-1],y,model="nn")*sigmoidDerivative(z_l[-1])
 		#d_L = cost(a_l[-1],y)*sigmoidDerivative(z_l[-1])
->>>>>>> 81370b43bc1510cb29b08fb5441bcfaaae2bde81
 		b_v[-1]=d_L
 		temp1=np.reshape(d_L,(d_L.shape[0],1))
 		temp2=np.reshape(a_l[-2],(1,a_l[-2].shape[0]))
