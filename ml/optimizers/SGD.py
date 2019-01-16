@@ -1,13 +1,14 @@
-#TODO add momentum
+
 import numpy as np
-from ..activation.util import sigmoid,sigmoidDerivative,stable_sigmoid
+from ..activation.util import sigmoid,sigmoidDerivative,relu,reluDerivative,stable_sigmoid
 from ..losses import *
 class SGD:
 	"""
 	This class implements Sochastic Gradient Descent algorithm for optimizing neural nets
 		
 	"""
-	def __init__(self,X,Y,n_epoch,layers,learning_rate=3,shuffle=True,batch_size=15,back_bool=True):
+
+	def __init__(self,X,Y,n_epoch,layers,cost,learning_rate=3,shuffle=True,batch_size=15,back_bool=True):
 		"""
 			INPUT:
 				X	=	feature vector 
@@ -27,6 +28,7 @@ class SGD:
 		self.train_data=np.asarray(list(zip(self.feat,self.target)))
 		self.LD=len(self.train_data)
 		self.layers=layers
+		self.cost=cost
 	def make_batches(self,batch_size):
 		"""makes batches
 
@@ -42,18 +44,18 @@ class SGD:
 			if ite==(self.LD,self.LD):break
 			else:size_index_list.append(ite)
 		batches=[self.train_data[_[0]:_[1]] for _ in size_index_list]
-		return np.asarray(batches)		
+		return batches	
 	def optimize(self,weights_init,biases_init,momentum=True):
 		"""optimizes weights and biases"""
 		self.weights=weights_init
 		self.biases=biases_init
 		for i in range(self.epoch):
-			print("\t\tEPOCH:{0} running".format(i+1))
+			print("\t\t\t|Running EPOCH:{0} |".format(i+1))
 			np.random.shuffle(self.train_data)
 			batches=self.make_batches(self.batch_size)
-			for j in batches:
-				print("running mini batch")
-				self._get_grads(j)
+			for j in range(len(batches)):
+				print("|running mini batch",j+1," |")
+				self._get_grads(batches[j])
 		return self.weights,self.biases
 	def _get_grads(self,mini_batch):
 		"""
@@ -66,38 +68,22 @@ class SGD:
 		random_weights=[np.zeros(i.shape) for i in self.weights]
 		random_biases=[np.zeros(j.shape) for j in self.biases]
 		for f,t in mini_batch:
-			weight_sum_list,act_list = self._forward_pass(f,self.weights,self.biases)
-			dr_b,dr_w = self._backward_pass(weight_sum_list,act_list,t,random_weights,random_biases)
-			#dr_b,dr_w = self.backprop(f,t)
+			w_l,a_l=self._forward_pass(f,random_weights,random_biases)
+			dr_b,dr_w=self._backward_pass(w_l,a_l,t,random_weights,random_biases)
 			random_weights=[i+j for i,j in zip(random_weights,dr_w)]
 			random_biases=[i+j for i,j in zip(random_biases,dr_b)]
-
-		self.weights=[i-(self.lr/len(mini_batch))*j for i,j in zip(self.weights,random_weights)]
-		self.biases=[i-(self.lr/len(mini_batch))*j for i,j in zip(self.biases,random_biases)]
-	#def backprop(self,x,y):
-		"""
-			performs backpropagation
-			
-			INPUT:
-				x	=	input feature vector
-				y	=	output target vector
-		"""
-		#u_w=[np.zeros(w.shape) for w in self.weights]
-		#u_b=[np.zeros(b.shape) for b in self.biases]
-		#weight_sum_list,act_list=self._forward_pass(x,self.weights,self.biases)
-		#self.act = act_list
-		#print(categorical_cross_entropy(act_list[-1],y,model="nn"))
-		#return self._backward_pass(weight_sum_list,act_list,y,u_w,u_b)
+		self.weights=[w-(self.lr/len(mini_batch))*q for w,q in zip(self.weights,random_weights)]
+		self.biases=[b-(self.lr/len(mini_batch))*e for b,e in zip(self.biases,random_biases)]
 	def _forward_pass(self,in_,weights,biases):
 		"""
 			performs forward pass
-		`
 			INPUT:
 				in_	=	input feature vector
 				weights	=	weight vector
 				biases	=	bias vector
 			returns weighted sum list and activation list
 		"""
+<<<<<<< HEAD
 		print("enter forward")
 		act=np.reshape(in_,(in_.shape[0],1))
 		weight_sum_list=[]
@@ -105,6 +91,13 @@ class SGD:
 		for w,b in zip(weights,biases):
 			weight_sum=np.dot(w,act)+b
 			print(weight_sum,weight_sum.shape)
+=======
+		act=in_
+		weight_sum_list=[]
+		act_list=[in_]
+		for w,b in zip(self.weights,self.biases):
+			weight_sum=np.matmul(w,act)+b
+>>>>>>> 81370b43bc1510cb29b08fb5441bcfaaae2bde81
 			weight_sum_list.append(weight_sum)
 			act=stable_sigmoid(weight_sum)
 			#act=relu(weight_sum)
@@ -123,37 +116,37 @@ class SGD:
 		
 			returns derivative vector (bias and weights)
 		"""
+<<<<<<< HEAD
 		print("enter backward")
 		#print(categorical_cross_entropy(a_l[-1],y))
 		error=cost(a_l[-1],y)
 		print("Error:"),
 		#d_L=categorical_cross_entropy(a_l[-1],y,model="nn")*sigmoidDerivative(z_l[-1])
 		d_L = cost(a_l[-1],y)*sigmoidDerivative(z_l[-1])
+=======
+		er=self.cost(a_l[-1],y)
+		d_L=self.cost(a_l[-1],y)*sigmoidDerivative(z_l[-1])
+		print("Error:",er)
+		d_L=categorical_cross_entropy(a_l[-1],y,model="nn")*sigmoidDerivative(z_l[-1])
+		#d_L = cost(a_l[-1],y)*sigmoidDerivative(z_l[-1])
+>>>>>>> 81370b43bc1510cb29b08fb5441bcfaaae2bde81
 		b_v[-1]=d_L
-		#print(d_L.shape,a_l[-1].shape,a_l[-2].shape)
-		w_v[-1]=np.dot(d_L,a_l[-2].T)
+		temp1=np.reshape(d_L,(d_L.shape[0],1))
+		temp2=np.reshape(a_l[-2],(1,a_l[-2].shape[0]))
+		w_v[-1]=np.dot(temp1,temp2)
 		for i in range(2,self.layers):
 			w=z_l[-i]
 			a=sigmoidDerivative(w)
-			d_L=np.dot(self.weights[-i+1].transpose(),d_L)*a
+			d_L=np.dot(self.weights[-i+1].T,d_L)*a
 			b_v[-i]=d_L
-			w_v[-i]=np.dot(d_L,a_l[-i-1].transpose())
+			temp1=np.reshape(d_L,(d_L.shape[0],1))
+			temp2=np.reshape(a_l[-i-1],(1,a_l[-i-1].shape[0]))
+			w_v[-i]=np.dot(temp1,temp2)
 		return b_v,w_v
 
-	def feed_forward(self,X,w,b):
-		A=X[0]
-		for w,b in zip(w,b):
-			Z = np.dot(w,A)+b
-			A = sigmoid(Z)
-		return A
-def cost(a,b):
-	return np.sum(b-a)
 
-		
 
 					
-
-				
 									
 				
 			

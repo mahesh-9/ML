@@ -1,7 +1,7 @@
 #TODO Not completed yet. 
 import numpy as np
 from math import log,e,exp
-from ml.activation.util import softmax,sigmoid
+from ml.activation.activations import softmax,sigmoid
 #class LOSS:
 
 def sigmoidal(X):
@@ -40,30 +40,23 @@ def cross_entropy(self,targets,features,hyp="binary_class"):
 
 	#@staticmethod
 def categorical_cross_entropy(feat,target,hyp="multiclass",model="nn"):
-	target=target
-	#self.k=self.target.shape[1]
-	feat=feat
-	#self.no_train=len(self.feat)
-	#self.hyp=HYP[hyp]
-	r = np.sum(np.dot(target,np.log(soft_max(feat))))
+	r = np.sum(np.dot(target,np.log(sigmoid(feat))))
 	return -r
 
-#@staticmethod
 def normal(X):
 	return np.matmul(obj.weights,X)
 #HYP={"Regression":LOSS.normal,"binary_class":LOSS.sigmoidal,"multiclass":LOSS.soft_max}
 			
 			
-""" Cross entropy """
 def cost(AL,Y):
 	"""
 	Args:
 	AL -- label predictions vector
 	Y -- true "label" vector (feat)
 	"""
-	m = Y.shape[1]
-	cost = (-1/m)*np.sum(Y*np.log(AL)+(1-Y)*np.log(1-AL))
-	return cost			
+	res=np.sum(AL-Y)
+	#return AL-Y
+	return res		
 			
 			
 		

@@ -23,6 +23,8 @@ def one_hot_encoding(y):
 	for i in range(len(y)):
 		temp[i][y[i]]=1
 	return temp
+def Flatten(X):
+	return np.resize(X,[X.shape[0],X.shape[1],1])
 def normalize(X):
 	"""	This function normalizes the feature values:
 		new_x=(x-min(x))/(max(x)-min(x))"""
@@ -128,7 +130,7 @@ class Preprocess:
 				raise ValueError("FILE FORMAT NOT SUPPORTED")
 			else:formats[i]=j[0][-3:]
 			return True
-	def direc_to_array(self,path=None,reshape=True):
+	def direc_to_array(self,path=None,shape=[28,28,3],grey_scale=True):
 		"""This function converts images present in the specified path to arrays.
 		
 
@@ -162,14 +164,16 @@ class Preprocess:
 				new_path=os.path.join(self.root_path,class_list[i])
 				new_dir_list=os.listdir(new_path)
 				for j in range(len(new_dir_list)):
-					img=self.rgb2grey(self.img_to_array(os.path.join(new_path,new_dir_list[j]),cond=reshape))
-					img_f= img.flatten()
-					arr.append(img_f)
+					img=self.img_to_array(os.path.join(new_path,new_dir_list[j]),shape=shape)
+					if grey_scale:
+						img=self.rgb2grey(img).flatten()
+						arr.append(img)
+					else:arr.append(img)
 				target=categorical(np.full([len(new_dir_list),],i),len(class_list))
 				tar.extend(target)
 		return np.asarray(arr),np.asarray(tar)
 
-	def img_to_array(self,path,cond=False):
+	def img_to_array(self,path,shape=None):
 		"""This method converts single image to array
 		
 		INPUT	:
@@ -189,7 +193,11 @@ class Preprocess:
 		
 		if not os.path.exists(path):
 				raise ValueError("Provided invalid path")
+<<<<<<< HEAD
 		if cond:return np.resize(misc.imread(path),[28,28,3])
+=======
+		if shape:return np.resize(misc.imread(path),shape)
+>>>>>>> 81370b43bc1510cb29b08fb5441bcfaaae2bde81
 		else:return misc.imread(path)
 	
 	def rgb2grey(self,img):
